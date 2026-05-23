@@ -1,18 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio</title>
   <style>
-  :root {
-    color-scheme: light;
-    --bg: #fafafa;
-    --text: #1a1a1a;
-    --toggle: rgba(26, 26, 26, 0.45);
-    --toggle-hover: rgba(26, 26, 26, 0.75);
-  }
-
+  :root,
   :root[data-theme="dark"] {
     color-scheme: dark;
     --bg: #0f0f0f;
@@ -21,14 +14,12 @@
     --toggle-hover: rgba(240, 240, 240, 0.75);
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --bg: #0f0f0f;
-      --text: #f0f0f0;
-      --toggle: rgba(240, 240, 240, 0.4);
-      --toggle-hover: rgba(240, 240, 240, 0.75);
-    }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #fafafa;
+    --text: #1a1a1a;
+    --toggle: rgba(26, 26, 26, 0.45);
+    --toggle-hover: rgba(26, 26, 26, 0.75);
   }
 
   body {
@@ -50,6 +41,7 @@
     line-height: 1.4;
     font-size: clamp(1.25rem, 3vw, 1.75rem);
     font-weight: 500;
+    text-align: center;
   }
 
   .theme-toggle {
@@ -97,22 +89,10 @@
   :root[data-theme="dark"] .theme-toggle .icon-sun {
     display: block;
   }
-
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) .theme-toggle .icon-moon {
-      display: block;
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme]) .theme-toggle .icon-sun {
-      display: block;
-    }
-  }
   </style>
 </head>
 <body>
-  <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
+  <button class="theme-toggle" type="button" aria-label="Switch to light mode">
     <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
     </svg>
@@ -130,12 +110,8 @@
     var toggle = document.querySelector('.theme-toggle');
     var storageKey = 'theme';
 
-    function getSystemTheme() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-
     function getTheme() {
-      return localStorage.getItem(storageKey) || getSystemTheme();
+      return localStorage.getItem(storageKey) || 'dark';
     }
 
     function setTheme(theme) {
