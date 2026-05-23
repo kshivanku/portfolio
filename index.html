@@ -5,6 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio</title>
   <style>
+  :root {
+    color-scheme: light;
+    --bg: #fafafa;
+    --text: #1a1a1a;
+    --toggle: rgba(26, 26, 26, 0.45);
+    --toggle-hover: rgba(26, 26, 26, 0.75);
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0f0f0f;
+    --text: #f0f0f0;
+    --toggle: rgba(240, 240, 240, 0.4);
+    --toggle-hover: rgba(240, 240, 240, 0.75);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0f0f0f;
+      --text: #f0f0f0;
+      --toggle: rgba(240, 240, 240, 0.4);
+      --toggle-hover: rgba(240, 240, 240, 0.75);
+    }
+  }
+
   body {
     margin: 0;
     min-height: 100vh;
@@ -12,10 +38,122 @@
     align-items: center;
     justify-content: center;
     font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  h1 {
+    max-width: 42rem;
+    margin: 0;
+    padding: 2rem;
+    line-height: 1.4;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 500;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--toggle);
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .theme-toggle:hover {
+    color: var(--toggle-hover);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--toggle-hover);
+    outline-offset: 3px;
+  }
+
+  .theme-toggle svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .theme-toggle .icon-sun,
+  .theme-toggle .icon-moon {
+    display: none;
+  }
+
+  :root[data-theme="light"] .theme-toggle .icon-moon,
+  :root[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .theme-toggle .icon-moon {
+      display: block;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .theme-toggle .icon-sun {
+      display: block;
+    }
   }
   </style>
 </head>
 <body>
+  <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
+    <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+  </button>
+
   <h1>Hi, I’m Shivanku. I design and build products that feel simple, intuitive and are used by millions globally.</h1>
+
+  <script>
+  (function () {
+    var root = document.documentElement;
+    var toggle = document.querySelector('.theme-toggle');
+    var storageKey = 'theme';
+
+    function getSystemTheme() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function getTheme() {
+      return localStorage.getItem(storageKey) || getSystemTheme();
+    }
+
+    function setTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      toggle.setAttribute(
+        'aria-label',
+        theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+      );
+    }
+
+    setTheme(getTheme());
+
+    toggle.addEventListener('click', function () {
+      var nextTheme = getTheme() === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(storageKey, nextTheme);
+      setTheme(nextTheme);
+    });
+  })();
+  </script>
 </body>
 </html>
