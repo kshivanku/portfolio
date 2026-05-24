@@ -153,4 +153,4 @@ gh auth status
 
 ---
 
-*Last updated: Added short captions below every project video panel.*
+*Last updated: Refreshed `FoAMediaEdited.mov` shared project video asset after captioned horizontal panels were added.*
