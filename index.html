@@ -16,6 +16,7 @@
     --toggle: rgba(240, 240, 240, 0.4);
     --toggle-hover: rgba(240, 240, 240, 0.75);
     --peek: 40px;
+    --panel-max: 520px;
   }
 
   :root[data-theme="light"] {
@@ -96,8 +97,8 @@
 
   .project-panel {
     position: relative;
-    flex: 0 0 calc(100vw - var(--peek));
-    width: calc(100vw - var(--peek));
+    flex: 0 0 min(calc(100vw - var(--peek)), var(--panel-max));
+    width: min(calc(100vw - var(--peek)), var(--panel-max));
     height: 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
@@ -106,8 +107,8 @@
   }
 
   .project-panel:last-child {
-    flex-basis: 100vw;
-    width: 100vw;
+    flex-basis: min(100vw, var(--panel-max));
+    width: min(100vw, var(--panel-max));
   }
 
   .project-panel + .project-panel {
