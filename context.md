@@ -160,4 +160,4 @@ gh auth status
 
 ---
 
-*Last updated: Project 1 videos now use `UplevelCTA.mov`, `FoAMediaEdited.mov`, and `Quicksends.mov` in order.*
+*Last updated: Refreshed `Quicksends.mov`, used as Project 1's third video panel.*
