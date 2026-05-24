@@ -159,4 +159,4 @@ gh auth status
 
 ---
 
-*Last updated: Added work experience details (Year, Company, Role) to project intro panels with label-value layout and borders between rows.*
+*Last updated: Added work experience details (Year, Company, Role) to Project 1 so all project intro panels now share the label-value layout.*
