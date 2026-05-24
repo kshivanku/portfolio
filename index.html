@@ -17,6 +17,7 @@
     --toggle-hover: rgba(240, 240, 240, 0.75);
     --peek: 40px;
     --panel-max: 520px;
+    --intro-panel-max: 680px;
   }
 
   :root[data-theme="light"] {
@@ -118,6 +119,8 @@
   .project-panel--intro {
     display: flex;
     align-items: flex-end;
+    flex-basis: min(calc(100vw - var(--peek)), var(--intro-panel-max));
+    width: min(calc(100vw - var(--peek)), var(--intro-panel-max));
     background-color: var(--panel);
   }
 
@@ -336,26 +339,20 @@
   })();
 
   (function () {
-    var activeVideo = null;
     var videos = Array.prototype.slice.call(document.querySelectorAll('.frame--project video'));
     var strips = Array.prototype.slice.call(document.querySelectorAll('.project-strip'));
+    var playingVideos = [];
 
     function resetVideo(video) {
       video.pause();
       video.currentTime = 0;
     }
 
-    function resetAllExcept(video) {
-      videos.forEach(function (candidate) {
-        if (candidate !== video) {
-          resetVideo(candidate);
-        }
-      });
+    function isPlaying(video) {
+      return playingVideos.indexOf(video) !== -1;
     }
 
     function playFromStart(video) {
-      resetAllExcept(video);
-
       video.currentTime = 0;
       video.play().catch(function () {});
     }
@@ -367,47 +364,45 @@
       return centeredElement ? centeredElement.closest('.frame--project') : null;
     }
 
-    function getActivePanel(strip) {
-      var panels = Array.prototype.slice.call(strip.querySelectorAll('.project-panel'));
-      var activePanel = panels[0];
-      var shortestDistance = Infinity;
+    function isPanelVisible(panel, strip) {
+      var panelLeft = panel.offsetLeft;
+      var panelRight = panelLeft + panel.offsetWidth;
+      var stripLeft = strip.scrollLeft;
+      var stripRight = stripLeft + strip.clientWidth;
+      var visibleWidth = Math.min(panelRight, stripRight) - Math.max(panelLeft, stripLeft);
 
-      panels.forEach(function (panel) {
-        var distance = Math.abs(panel.offsetLeft - strip.scrollLeft);
-
-        if (distance < shortestDistance) {
-          shortestDistance = distance;
-          activePanel = panel;
-        }
-      });
-
-      return activePanel;
+      return visibleWidth >= panel.offsetWidth * 0.5;
     }
 
     function updatePlayback() {
       var activeProject = getActiveProject();
-      var nextVideo = null;
+      var nextVideos = [];
 
       if (activeProject) {
         var strip = activeProject.querySelector('.project-strip');
-        var activePanel = strip ? getActivePanel(strip) : null;
 
-        if (activePanel) {
-          nextVideo = activePanel.querySelector('video');
+        if (strip) {
+          Array.prototype.slice.call(strip.querySelectorAll('.project-panel--media')).forEach(function (panel) {
+            var video = panel.querySelector('video');
+
+            if (video && isPanelVisible(panel, strip)) {
+              nextVideos.push(video);
+            }
+          });
         }
       }
 
-      if (nextVideo && nextVideo !== activeVideo) {
-        activeVideo = nextVideo;
-        playFromStart(nextVideo);
-      } else if (nextVideo && nextVideo.paused) {
-        nextVideo.play().catch(function () {});
-      } else if (!nextVideo) {
-        activeVideo = null;
-        videos.forEach(resetVideo);
-      } else {
-        resetAllExcept(nextVideo);
-      }
+      videos.forEach(function (video) {
+        if (nextVideos.indexOf(video) === -1) {
+          resetVideo(video);
+        } else if (!isPlaying(video)) {
+          playFromStart(video);
+        } else if (video.paused) {
+          video.play().catch(function () {});
+        }
+      });
+
+      playingVideos = nextVideos;
     }
 
     function schedulePlaybackUpdate() {
@@ -426,9 +421,11 @@
     if ('IntersectionObserver' in window) {
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
-          if (!entry.isIntersecting && entry.target === activeVideo) {
-            activeVideo = null;
+          if (!entry.isIntersecting) {
             resetVideo(entry.target);
+            playingVideos = playingVideos.filter(function (video) {
+              return video !== entry.target;
+            });
           }
         });
       }, { threshold: 0 });

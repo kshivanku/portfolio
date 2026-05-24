@@ -58,7 +58,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | 3 | **Project 2** | Horizontal project strip: intro panel + 3 captioned video panels |
 | 4 | **Project 3** | Horizontal project strip: intro panel + 3 captioned video panels |
 
-**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. Non-final horizontal panels are `min(100vw - 40px, 520px)`: mobile keeps about a 40px next-panel peek, while wider desktop viewports can show multiple capped panels at once. `FoAMediaEdited.mov` is reused for all video panels until unique assets exist. Project videos are paused and reset while offscreen; when a video panel becomes active in the visible project frame, its video starts from the beginning.
+**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. Non-final media panels are `min(100vw - 40px, 520px)`; intro panels use the same mobile sizing but can grow to `680px` on desktop. Mobile keeps about a 40px next-panel peek, while wider desktop viewports can show multiple capped panels at once. `FoAMediaEdited.mov` is reused for all video panels until unique assets exist. Project videos are paused and reset while offscreen; video panels that are at least half visible in the active project frame play from the beginning.
 
 ### Planned (not built yet)
 
@@ -74,9 +74,9 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 - **CSS scroll snap** — `scroll-snap-type: y mandatory` on `html`
 - Each `.frame` is **`100vh` / `100dvh`** with `scroll-snap-align: start` and `scroll-snap-stop: always`
 - Project frames contain a native horizontal scroll area with `scroll-snap-type: x mandatory`
-- Horizontal project panels are full height and capped at 520px wide; smaller screens preserve a 40px right-side preview of the next panel, while larger screens may show multiple panels
+- Horizontal media panels are full height and capped at 520px wide; intro panels are capped at 680px; smaller screens preserve a 40px right-side preview of the next panel, while larger screens may show multiple panels
 - **No JavaScript scroll snapping logic** — vertical and horizontal snap are native CSS
-- **JavaScript media visibility control only** — the active horizontal video panel in the visible project frame starts from `0:00`; all other videos pause/reset
+- **JavaScript media visibility control only** — horizontal video panels at least half visible in the active project frame start from `0:00`; all other videos pause/reset
 - **No text overlays** yet
 - **`prefers-reduced-motion`:** snap degrades to `proximity`
 
@@ -130,7 +130,7 @@ portfolio/
 - [x] Each project frame has a horizontal intro + 3 captioned video panel strip
 - [x] Horizontal panels are max-width capped on desktop and show a 40px preview of the next panel when one exists
 - [x] Same project video reused across all video panels
-- [x] Project videos only play while their horizontal panel is active in the visible project frame and restart from the beginning on entry
+- [x] Project videos only play while at least half visible in the active project frame and restart from the beginning on entry
 - [x] Light / dark theme toggle, dark default
 - [x] Bidirectional snap (scroll up returns to previous frame)
 
@@ -153,4 +153,4 @@ gh auth status
 
 ---
 
-*Last updated: Horizontal project panels are capped at 520px while the strip remains full-width, so desktop can show multiple panels and mobile keeps the peek.*
+*Last updated: Intro panels are wider than media panels on desktop, and multiple visible desktop video panels can play together.*
