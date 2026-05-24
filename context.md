@@ -107,6 +107,7 @@ Do not invert vertical direction. Scrolling down goes to the next project frame;
 
 ```text
 portfolio/
+├── .gitignore
 ├── context.md
 ├── index.html
 └── assets/
@@ -159,4 +160,4 @@ gh auth status
 
 ---
 
-*Last updated: Center-aligned all video captions across project panels.*
+*Last updated: Added `.gitignore` for `.DS_Store` and kept project intro title sizing updates.*
