@@ -12,8 +12,6 @@
     --text: #f0f0f0;
     --toggle: rgba(240, 240, 240, 0.4);
     --toggle-hover: rgba(240, 240, 240, 0.75);
-    --blob-bg: rgba(15, 15, 15, 0.82);
-    --blob-border: rgba(240, 240, 240, 0.08);
   }
 
   :root[data-theme="light"] {
@@ -22,32 +20,34 @@
     --text: #1a1a1a;
     --toggle: rgba(26, 26, 26, 0.45);
     --toggle-hover: rgba(26, 26, 26, 0.75);
-    --blob-bg: rgba(250, 250, 250, 0.88);
-    --blob-border: rgba(26, 26, 26, 0.08);
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    scroll-snap-type: y proximity;
   }
 
   body {
     margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: system-ui, -apple-system, sans-serif;
     background-color: var(--bg);
     color: var(--text);
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
+  h1 {
+    max-width: 42rem;
+    margin: 0;
+    padding: 2rem;
+    line-height: 1.4;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 500;
+    text-align: center;
+  }
+
   .theme-toggle {
     position: fixed;
     top: 1rem;
     right: 1rem;
-    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,140 +89,6 @@
   :root[data-theme="dark"] .theme-toggle .icon-sun {
     display: block;
   }
-
-  .site {
-    position: relative;
-  }
-
-  .frame {
-    position: relative;
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
-  }
-
-  .frame--hero {
-    height: 100vh;
-  }
-
-  .frame--project {
-    height: 200vh;
-  }
-
-  .frame__sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow: hidden;
-    background: var(--bg);
-  }
-
-  .frame__heading {
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 42rem;
-    margin: 0 auto;
-    padding: 2rem;
-    line-height: 1.4;
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
-    font-weight: 500;
-    text-align: center;
-    will-change: filter, opacity;
-  }
-
-  .frame__media {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center center;
-    will-change: transform, opacity;
-    transform-origin: center bottom;
-  }
-
-  .frame__peek {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    z-index: 2;
-    width: min(78vw, 22rem);
-    height: 100px;
-    overflow: hidden;
-    pointer-events: none;
-    will-change: opacity;
-    transform: translateX(-50%);
-  }
-
-  .frame__peek-inner {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transform: rotate(20deg);
-    transform-origin: center bottom;
-    will-change: transform;
-  }
-
-  .frame__peek img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 0.75rem;
-  }
-
-  .frame__overlays {
-    position: relative;
-    z-index: 4;
-    min-height: 100vh;
-    padding: 2rem 1.25rem 6rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1.25rem;
-    pointer-events: none;
-  }
-
-  .text-blob {
-    max-width: 34rem;
-    margin: 0 auto;
-    width: 100%;
-    padding: 1.125rem 1.25rem;
-    line-height: 1.55;
-    font-size: 1rem;
-    background: var(--blob-bg);
-    border: 1px solid var(--blob-border);
-    border-radius: 1rem;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    will-change: transform, opacity, filter;
-    pointer-events: auto;
-  }
-
-  .text-blob:nth-child(odd) {
-    align-self: flex-start;
-  }
-
-  .text-blob:nth-child(even) {
-    align-self: flex-end;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-      scroll-snap-type: none;
-    }
-
-    .frame__heading,
-    .frame__media,
-    .frame__peek,
-    .text-blob {
-      will-change: auto;
-    }
-  }
   </style>
 </head>
 <body>
@@ -236,95 +102,13 @@
     </svg>
   </button>
 
-  <main class="site">
-    <section class="frame frame--hero" id="hero" data-frame="hero">
-      <div class="frame__sticky">
-        <h1 class="frame__heading">Hi, I’m Shivanku. I design and build products that feel simple, intuitive and are used by millions globally.</h1>
-        <div class="frame__peek" data-peek>
-          <div class="frame__peek-inner">
-            <img src="assets/ios-mp-collections.png" alt="" aria-hidden="true">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="frame frame--project" id="project-1" data-frame="project">
-      <div class="frame__sticky">
-        <img class="frame__media" src="assets/ios-mp-collections.png" alt="Project 1 — Collections">
-        <div class="frame__peek" data-peek>
-          <div class="frame__peek-inner">
-            <img src="assets/ios-mp-collections.png" alt="" aria-hidden="true">
-          </div>
-        </div>
-      </div>
-      <div class="frame__overlays">
-        <p class="text-blob">We redesigned collections for millions of users. The new flow feels faster, clearer, and more personal.</p>
-        <p class="text-blob">Early tests showed stronger engagement and fewer drop-offs during save. Iteration focused on clarity under load.</p>
-      </div>
-    </section>
-
-    <section class="frame frame--project" id="project-2" data-frame="project">
-      <div class="frame__sticky">
-        <img class="frame__media" src="assets/ios-mp-collections.png" alt="Project 2">
-        <div class="frame__peek" data-peek>
-          <div class="frame__peek-inner">
-            <img src="assets/ios-mp-collections.png" alt="" aria-hidden="true">
-          </div>
-        </div>
-      </div>
-      <div class="frame__overlays">
-        <p class="text-blob">Placeholder case study for frame two. Overlays stay readable while the visual remains pinned behind them.</p>
-        <p class="text-blob">Swap this copy and asset when ready. Each scroll step should feel like arriving at a new full-screen frame.</p>
-      </div>
-    </section>
-
-    <section class="frame frame--project" id="project-3" data-frame="project">
-      <div class="frame__sticky">
-        <img class="frame__media" src="assets/ios-mp-collections.png" alt="Project 3">
-        <div class="frame__peek" data-peek>
-          <div class="frame__peek-inner">
-            <img src="assets/ios-mp-collections.png" alt="" aria-hidden="true">
-          </div>
-        </div>
-      </div>
-      <div class="frame__overlays">
-        <p class="text-blob">Third project dummy copy validates transitions, peeks, and blur exits before final photography ships here.</p>
-        <p class="text-blob">Behavior first, polish second. Two cards per project give the in-frame scroll a little rhythm and pacing.</p>
-      </div>
-    </section>
-
-    <section class="frame frame--project" id="project-4" data-frame="project">
-      <div class="frame__sticky">
-        <img class="frame__media" src="assets/ios-mp-collections.png" alt="Project 4">
-      </div>
-      <div class="frame__overlays">
-        <p class="text-blob">Fourth frame for now uses the same image. Unique media and story beats replace placeholders when you are happy.</p>
-        <p class="text-blob">No peek after this section. A footer or contact block can land here in a later pass without changing scroll logic.</p>
-      </div>
-    </section>
-  </main>
+  <h1>Hi, I’m Shivanku. I design and build products that feel simple, intuitive and are used by millions globally.</h1>
 
   <script>
   (function () {
     var root = document.documentElement;
     var toggle = document.querySelector('.theme-toggle');
     var storageKey = 'theme';
-    var frames = Array.prototype.slice.call(document.querySelectorAll('.frame'));
-    var hero = document.getElementById('hero');
-    var heroHeading = hero.querySelector('.frame__heading');
-    var heroPeek = hero.querySelector('[data-peek]');
-    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var ticking = false;
-
-    var PEEK_ROTATION = 20;
-
-    function clamp(value, min, max) {
-      return Math.min(max, Math.max(min, value));
-    }
-
-    function lerp(start, end, amount) {
-      return start + (end - start) * amount;
-    }
 
     function getTheme() {
       return localStorage.getItem(storageKey) || 'dark';
@@ -345,184 +129,6 @@
       localStorage.setItem(storageKey, nextTheme);
       setTheme(nextTheme);
     });
-
-    function applyPeekInner(peek, progress) {
-      var inner = peek.querySelector('.frame__peek-inner');
-      if (!inner) {
-        return;
-      }
-
-      var rotate = lerp(PEEK_ROTATION, 0, progress);
-      var scale = lerp(0.94, 1, progress);
-      inner.style.transform = 'rotate(' + rotate + 'deg) scale(' + scale + ')';
-    }
-
-    function applyFullMedia(media, progress) {
-      var vh = window.innerHeight;
-      var translateY = lerp(vh * 0.45, 0, progress);
-      var rotate = lerp(PEEK_ROTATION, 0, progress);
-      var scale = lerp(0.9, 1, progress);
-
-      media.style.opacity = String(progress);
-      media.style.transform =
-        'translateY(' + translateY + 'px) rotate(' + rotate + 'deg) scale(' + scale + ')';
-    }
-
-    function applyOverlayState(blob, amount) {
-      var visible = clamp(amount, 0, 1);
-      blob.style.opacity = String(visible);
-      blob.style.transform = 'translateY(' + lerp(28, 0, visible) + 'px)';
-      blob.style.filter = 'blur(' + lerp(6, 0, visible) + 'px)';
-    }
-
-    function applyExitState(element, amount) {
-      var progress = clamp(amount, 0, 1);
-      element.style.opacity = String(1 - progress);
-      element.style.filter = 'blur(' + lerp(0, 14, progress) + 'px)';
-    }
-
-    function resetExitState(element) {
-      element.style.opacity = '1';
-      element.style.filter = 'blur(0px)';
-    }
-
-    function updateScrollStates() {
-      var scrollY = window.scrollY;
-      var vh = window.innerHeight;
-      var heroStart = hero.offsetTop;
-      var heroEnd = heroStart + vh;
-      var heroExit = clamp((scrollY - heroStart) / vh, 0, 1);
-
-      if (reducedMotion) {
-        heroHeading.style.opacity = scrollY > heroStart + vh * 0.5 ? '0' : '1';
-        heroHeading.style.filter = 'none';
-        heroPeek.style.opacity = scrollY > heroStart + vh * 0.5 ? '0' : '1';
-        applyPeekInner(heroPeek, 0);
-      } else {
-        applyExitState(heroHeading, heroExit);
-        applyPeekInner(heroPeek, 0);
-        heroPeek.style.opacity = String(1 - heroExit);
-      }
-
-      frames.forEach(function (frame) {
-        if (frame === hero) {
-          return;
-        }
-
-        var start = frame.offsetTop;
-        var enter = clamp((scrollY - start) / vh, 0, 1);
-        var overlay = clamp((scrollY - start - vh) / vh, 0, 1);
-        var sticky = frame.querySelector('.frame__sticky');
-        var media = frame.querySelector('.frame__media');
-        var peek = frame.querySelector('[data-peek]');
-        var blobs = frame.querySelectorAll('.text-blob');
-
-        if (reducedMotion) {
-          media.style.opacity = enter > 0.2 ? '1' : '0';
-          media.style.transform = 'none';
-          if (peek) {
-            peek.style.opacity = overlay < 0.85 ? '1' : '0';
-            applyPeekInner(peek, 0);
-          }
-          blobs.forEach(function (blob, index) {
-            var threshold = index === 0 ? 0.15 : 0.55;
-            blob.style.opacity = overlay > threshold ? '1' : '0';
-            blob.style.transform = 'none';
-            blob.style.filter = 'none';
-          });
-          return;
-        }
-
-        applyFullMedia(media, enter);
-
-        if (peek) {
-          if (enter < 1) {
-            peek.style.opacity = '0';
-          } else {
-            var peekAmount = 1 - clamp(overlay / 0.85, 0, 1);
-            applyPeekInner(peek, 0);
-            peek.style.opacity = String(peekAmount);
-          }
-        }
-
-        if (enter < 1) {
-          blobs.forEach(function (blob) {
-            blob.style.opacity = '0';
-            blob.style.transform = 'translateY(28px)';
-            blob.style.filter = 'blur(6px)';
-          });
-        } else if (overlay > 0.85 && peek) {
-          blobs.forEach(function (blob) {
-            applyExitState(blob, clamp((overlay - 0.85) / 0.15, 0, 1));
-          });
-        } else {
-          blobs.forEach(function (blob, index) {
-            var blobStart = index * 0.34;
-            var blobProgress = clamp((overlay - blobStart) / 0.42, 0, 1);
-            applyOverlayState(blob, blobProgress);
-          });
-        }
-
-        if (enter > 0 && enter < 1) {
-          sticky.style.zIndex = '5';
-        } else if (overlay > 0.8) {
-          sticky.style.zIndex = '1';
-        } else {
-          sticky.style.zIndex = '2';
-        }
-      });
-
-      frames.forEach(function (frame, index) {
-        if (frame === hero || index === 0) {
-          return;
-        }
-
-        var previous = frames[index - 1];
-        if (previous === hero) {
-          return;
-        }
-
-        var start = frame.offsetTop;
-        var enter = clamp((window.scrollY - start) / vh, 0, 1);
-        var previousOverlays = previous.querySelectorAll('.text-blob');
-        var previousMedia = previous.querySelector('.frame__media');
-
-        if (enter > 0) {
-          previousOverlays.forEach(function (blob) {
-            applyExitState(blob, enter);
-          });
-          if (previousMedia) {
-            applyExitState(previousMedia, enter);
-          }
-        } else {
-          previousOverlays.forEach(resetExitState);
-          if (previousMedia && window.scrollY < start) {
-            previousMedia.style.opacity = '1';
-            previousMedia.style.filter = 'blur(0px)';
-          }
-        }
-      });
-
-      ticking = false;
-    }
-
-    function requestScrollUpdate() {
-      if (!ticking) {
-        ticking = true;
-        window.requestAnimationFrame(updateScrollStates);
-      }
-    }
-
-    window.addEventListener('scroll', requestScrollUpdate, { passive: true });
-    window.addEventListener('resize', requestScrollUpdate);
-
-    Array.prototype.forEach.call(document.images, function (image) {
-      if (!image.complete) {
-        image.addEventListener('load', requestScrollUpdate);
-      }
-    });
-
-    updateScrollStates();
   })();
   </script>
 </body>
