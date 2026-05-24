@@ -18,6 +18,10 @@
     --peek: 40px;
     --panel-max: 520px;
     --intro-panel-max: 680px;
+    --desktop-peek: 80px;
+    --desktop-intro: 480px;
+    --desktop-video: 720px;
+    --desktop-strip: calc(var(--desktop-intro) + var(--desktop-video) + var(--desktop-peek));
   }
 
   :root[data-theme="light"] {
@@ -221,6 +225,36 @@
 
     .project-strip {
       scroll-snap-type: x proximity;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .project-strip {
+      width: min(100vw, var(--desktop-strip));
+      margin: 0 auto;
+    }
+
+    .project-panel {
+      flex-basis: min(var(--desktop-video), calc(100vw - var(--desktop-peek)));
+      width: min(var(--desktop-video), calc(100vw - var(--desktop-peek)));
+    }
+
+    .project-panel:last-child {
+      flex-basis: min(var(--desktop-video), 100vw);
+      width: min(var(--desktop-video), 100vw);
+    }
+
+    .project-panel--intro {
+      flex-basis: min(var(--desktop-intro), calc(100vw - var(--desktop-peek)));
+      width: min(var(--desktop-intro), calc(100vw - var(--desktop-peek)));
+    }
+
+    .project-copy {
+      padding: 2.5rem;
+    }
+
+    .project-copy h2 {
+      font-size: clamp(3rem, 5vw, 5.5rem);
     }
   }
   </style>
