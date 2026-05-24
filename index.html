@@ -150,15 +150,15 @@
     </section>
 
     <section class="frame frame--project" id="project-1">
-      <img class="frame__media" src="assets/ios-mp-collections.png" alt="Project 1">
+      <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Project 1" muted loop playsinline preload="metadata"></video>
     </section>
 
     <section class="frame frame--project" id="project-2">
-      <img class="frame__media" src="assets/ios-mp-collections.png" alt="Project 2">
+      <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Project 2" muted loop playsinline preload="metadata"></video>
     </section>
 
     <section class="frame frame--project" id="project-3">
-      <img class="frame__media" src="assets/ios-mp-collections.png" alt="Project 3">
+      <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Project 3" muted loop playsinline preload="metadata"></video>
     </section>
   </main>
 
@@ -187,6 +187,45 @@
       localStorage.setItem(storageKey, nextTheme);
       setTheme(nextTheme);
     });
+  })();
+
+  (function () {
+    var videos = Array.prototype.slice.call(document.querySelectorAll('.frame--project video'));
+
+    function resetVideo(video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+
+    function playFromStart(video) {
+      videos.forEach(function (candidate) {
+        if (candidate !== video) {
+          resetVideo(candidate);
+        }
+      });
+
+      video.currentTime = 0;
+      video.play().catch(function () {});
+    }
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.65) {
+            playFromStart(entry.target);
+          } else {
+            resetVideo(entry.target);
+          }
+        });
+      }, { threshold: [0, 0.65] });
+
+      videos.forEach(function (video) {
+        resetVideo(video);
+        observer.observe(video);
+      });
+    } else {
+      videos.forEach(resetVideo);
+    }
   })();
   </script>
 </body>

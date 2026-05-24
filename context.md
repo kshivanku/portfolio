@@ -54,11 +54,11 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | # | Frame | Content |
 |---|--------|---------|
 | 1 | **Hero** | Intro heading |
-| 2 | **Project 1** | Full-viewport project image |
-| 3 | **Project 2** | Full-viewport project image |
-| 4 | **Project 3** | Full-viewport project image |
+| 2 | **Project 1** | Full-viewport project video |
+| 3 | **Project 2** | Full-viewport project video |
+| 4 | **Project 3** | Full-viewport project video |
 
-**Four frames total** (hero counts as the first). Placeholder image is reused on all project frames until real assets exist.
+**Four frames total** (hero counts as the first). `FoAMediaEdited.mov` is reused on all project frames until unique assets exist. Project videos are paused and reset while offscreen; when a project frame comes into view, its video starts from the beginning.
 
 ### Planned (not built yet)
 
@@ -74,6 +74,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 - **CSS scroll snap** — `scroll-snap-type: y mandatory` on `html`
 - Each `.frame` is **`100vh` / `100dvh`** with `scroll-snap-align: start` and `scroll-snap-stop: always`
 - **No JavaScript scroll logic** — native snap only
+- **JavaScript media visibility control only** — `IntersectionObserver` starts the visible project video from `0:00` and pauses/resets offscreen videos
 - **No text overlays** yet
 - **`prefers-reduced-motion`:** snap degrades to `proximity`
 
@@ -94,7 +95,7 @@ Do not reintroduce long multi-viewport sections or gradual in-frame scroll unles
 | Layer | Choice |
 |--------|--------|
 | Site | Single `index.html` (CSS + theme JS only) |
-| Assets | `assets/ios-mp-collections.png` (placeholder) |
+| Assets | `assets/FoAMediaEdited.mov` (shared project video), `assets/ios-mp-collections.png` (old placeholder, no longer used by current frames) |
 | Hosting | GitHub Pages |
 
 ---
@@ -106,6 +107,7 @@ portfolio/
 ├── context.md
 ├── index.html
 └── assets/
+    ├── FoAMediaEdited.mov
     └── ios-mp-collections.png
 ```
 
@@ -123,7 +125,8 @@ portfolio/
 ### Done
 
 - [x] Hero + 3 project frames with scroll snap
-- [x] Same placeholder image on all project frames
+- [x] Same project video on all project frames
+- [x] Project videos only play while in view and restart from the beginning on entry
 - [x] Light / dark theme toggle, dark default
 - [x] Bidirectional snap (scroll up returns to previous frame)
 
@@ -146,4 +149,4 @@ gh auth status
 
 ---
 
-*Last updated: TikTok-style mandatory scroll snap — hero + 3 projects, placeholder image, no overlay text yet.*
+*Last updated: Project videos now play only while in view and restart from the beginning on entry; hero + 3 projects, no overlay text yet.*
