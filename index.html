@@ -414,7 +414,7 @@
       var stripRight = stripLeft + strip.clientWidth;
       var visibleWidth = Math.min(panelRight, stripRight) - Math.max(panelLeft, stripLeft);
 
-      return visibleWidth >= panel.offsetWidth * 0.5;
+      return visibleWidth >= panel.offsetWidth;
     }
 
     function updatePlayback() {

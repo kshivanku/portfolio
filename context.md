@@ -60,7 +60,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | 3 | **Project 2** | Horizontal project strip: intro panel + 3 captioned video panels |
 | 4 | **Project 3** | Horizontal project strip: intro panel + 3 captioned video panels |
 
-**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On this experiment branch, desktop (`min-width: 960px`) uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. `Quicksends.mov` is used for Project 1's first video panel; `FoAMediaEdited.mov` is reused for the remaining video panels until unique assets exist. Project videos are paused and reset while offscreen; video panels that are at least half visible in the active project frame play from the beginning.
+**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On this experiment branch, desktop (`min-width: 960px`) uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. `Quicksends.mov` is used for Project 1's first video panel; `FoAMediaEdited.mov` is reused for the remaining video panels until unique assets exist. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame.
 
 ### Planned (not built yet)
 
@@ -79,7 +79,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 - Mobile horizontal media panels are full height and capped at 520px wide; smaller screens preserve a 40px right-side preview of the next panel
 - Desktop experiment: the horizontal strip uses the full viewport width so users see the intro panel, primary video panel, and an 80px peek of the next video panel instead of three videos competing at once
 - **No JavaScript scroll snapping logic** — vertical and horizontal snap are native CSS
-- **JavaScript media visibility control only** — the most vertically visible project frame is active; horizontal video panels at least half visible in that frame start from `0:00`; all other videos pause/reset
+- **JavaScript media visibility control only** — the most vertically visible project frame is active; horizontal video panels start from `0:00` only when fully visible in that frame; all other videos pause/reset
 - **No text overlays** yet
 - **`prefers-reduced-motion`:** snap degrades to `proximity`
 
@@ -136,7 +136,7 @@ portfolio/
 - [x] Horizontal panels are max-width capped on desktop and show a 40px preview of the next panel when one exists
 - [x] Experiment branch desktop composition: full-width intro + primary video + 80px next-video peek
 - [x] Same project video reused across all video panels
-- [x] Project videos only play while at least half visible in the active project frame and restart from the beginning on entry
+- [x] Project videos only play while fully visible in the active project frame and restart from the beginning on entry
 - [x] Light / dark theme toggle, dark default
 - [x] Bidirectional snap (scroll up returns to previous frame)
 
@@ -159,4 +159,4 @@ gh auth status
 
 ---
 
-*Last updated: Revised `codex/desktop-two-panel-peek` to use full-width desktop proportions and most-visible-project video autoplay.*
+*Last updated: Updated `codex/desktop-two-panel-peek` video playback threshold so panels play only when fully visible.*
