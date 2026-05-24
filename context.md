@@ -58,11 +58,11 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | 3 | **Project 2** | Horizontal project strip: intro panel + 3 captioned video panels |
 | 4 | **Project 3** | Horizontal project strip: intro panel + 3 captioned video panels |
 
-**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. The intro panel now displays the project title, description, and three work experience rows (Year, Company, Role) with labels on the left and values on the right. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On desktop (`min-width: 960px`), the strip uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; other video panels still use `FoAMediaEdited.mov` until unique assets exist. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame.
+**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with centered caption text and two subtle metadata pills for status and impact below the caption. The intro panel now displays the project title, description, and three work experience rows (Year, Company, Role) with labels on the left and values on the right. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On desktop (`min-width: 960px`), the strip uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; other video panels still use `FoAMediaEdited.mov` until unique assets exist. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame.
 
 ### Planned (not built yet)
 
-- Final project names, descriptions, and video captions
+- Final project names, descriptions, video captions, and status/impact metadata
 - Unique image or video per project
 - Footer after the last project
 - Optional: peek of next frame, in-project overlay scroll (see `experiment/scroll-frame-portfolio` branch for a prior attempt)
@@ -133,6 +133,7 @@ portfolio/
 
 - [x] Hero + 3 project frames with scroll snap
 - [x] Each project frame has a horizontal intro + 3 captioned video panel strip
+- [x] Video captions include two subtle metadata pills for status and impact
 - [x] Horizontal panels are max-width capped on desktop and show a 40px preview of the next panel when one exists
 - [x] Desktop composition: full-width intro + primary video + 80px next-video peek
 - [x] Same project video reused across all video panels
@@ -160,4 +161,4 @@ gh auth status
 
 ---
 
-*Last updated: Refreshed `FoAMediaEdited.mov` and `UplevelCTA.mov` video assets while keeping existing filenames and panel assignments.*
+*Last updated: Added subtle status and impact pills below every video caption.*

@@ -193,13 +193,35 @@
   }
 
   .video-caption {
-    min-height: 5.5rem;
-    margin: 0;
+    min-height: 7rem;
     padding: 1rem 1.5rem 1.25rem;
     color: var(--muted);
     font-size: clamp(0.95rem, 2vw, 1.1rem);
     line-height: 1.35;
     text-align: center;
+  }
+
+  .video-caption p {
+    margin: 0;
+  }
+
+  .video-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .video-tag {
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--panel-edge);
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1;
+    white-space: nowrap;
   }
 
   .theme-toggle {
@@ -329,15 +351,33 @@
         </article>
         <article class="project-panel project-panel--media">
           <video class="frame__media" src="assets/UplevelCTA.mov" aria-label="Flow Atlas video 1" muted loop playsinline preload="metadata"></video>
-          <p class="video-caption">Easily cross-post WhatsApp status to Facebook or Instagram story.</p>
+          <div class="video-caption">
+            <p>Easily cross-post WhatsApp status to Facebook or Instagram story.</p>
+            <div class="video-tags" aria-label="Video details">
+              <span class="video-tag">Launched</span>
+              <span class="video-tag">Impact: 10M+ users</span>
+            </div>
+          </div>
         </article>
         <article class="project-panel project-panel--media">
           <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Flow Atlas video 2" muted loop playsinline preload="metadata"></video>
-          <p class="video-caption">Access media posted to Instagram and Facebook directly from the WhatsApp media picker.</p>
+          <div class="video-caption">
+            <p>Access media posted to Instagram and Facebook directly from the WhatsApp media picker.</p>
+            <div class="video-tags" aria-label="Video details">
+              <span class="video-tag">In development</span>
+              <span class="video-tag">Estimated impact: Faster sharing</span>
+            </div>
+          </div>
         </article>
         <article class="project-panel project-panel--media">
           <video class="frame__media" src="assets/Quicksends.mov" aria-label="Flow Atlas video 3" muted loop playsinline preload="metadata"></video>
-          <p class="video-caption">Quickly share links from Instagram to WhatsApp, without leaving the app.</p>
+          <div class="video-caption">
+            <p>Quickly share links from Instagram to WhatsApp, without leaving the app.</p>
+            <div class="video-tags" aria-label="Video details">
+              <span class="video-tag">Launched</span>
+              <span class="video-tag">Impact: 25M+ shares</span>
+            </div>
+          </div>
         </article>
       </div>
     </section>
@@ -366,15 +406,33 @@
         </article>
         <article class="project-panel project-panel--media">
           <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Signal Desk video 1" muted loop playsinline preload="metadata"></video>
-          <p class="video-caption">A snapshot of the main workspace and the information hierarchy in motion.</p>
+          <div class="video-caption">
+            <p>A snapshot of the main workspace and the information hierarchy in motion.</p>
+            <div class="video-tags" aria-label="Video details">
+              <span class="video-tag">In development</span>
+              <span class="video-tag">Estimated impact: Clearer decisions</span>
+            </div>
+          </div>
         </article>
         <article class="project-panel project-panel--media">
           <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Signal Desk video 2" muted loop playsinline preload="metadata"></video>
-          <p class="video-caption">A focused pass through the controls that help people compare and decide quickly.</p>
+          <div class="video-caption">
+            <p>A focused pass through the controls that help people compare and decide quickly.</p>
+            <div class="video-tags" aria-label="Video details">
+              <span class="video-tag">In development</span>
+              <span class="video-tag">Estimated impact: 15% faster review</span>
+            </div>
+          </div>
         </article>
         <article class="project-panel project-panel--media">
           <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Signal Desk video 3" muted loop playsinline preload="metadata"></video>
-          <p class="video-caption">A wrap-up of the workflow once the dense parts have been clarified.</p>
+          <div class="video-caption">
+            <p>A wrap-up of the workflow once the dense parts have been clarified.</p>
+            <div class="video-tags" aria-label="Video details">
+              <span class="video-tag">In development</span>
+              <span class="video-tag">Estimated impact: Fewer handoffs</span>
+            </div>
+          </div>
         </article>
       </div>
     </section>
@@ -403,15 +461,33 @@
         </article>
         <article class="project-panel project-panel--media">
           <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Moment Kit video 1" muted loop playsinline preload="metadata"></video>
-          <p class="video-caption">A small interaction moment showing how motion can make state changes easier to follow.</p>
+          <div class="video-caption">
+            <p>A small interaction moment showing how motion can make state changes easier to follow.</p>
+            <div class="video-tags" aria-label="Video details">
+              <span class="video-tag">Launched</span>
+              <span class="video-tag">Impact: Smoother feedback</span>
+            </div>
+          </div>
         </article>
         <article class="project-panel project-panel--media">
           <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Moment Kit video 2" muted loop playsinline preload="metadata"></video>
-          <p class="video-caption">A second variation exploring timing, clarity, and feedback at the component level.</p>
+          <div class="video-caption">
+            <p>A second variation exploring timing, clarity, and feedback at the component level.</p>
+            <div class="video-tags" aria-label="Video details">
+              <span class="video-tag">Launched</span>
+              <span class="video-tag">Impact: Fewer missed states</span>
+            </div>
+          </div>
         </article>
         <article class="project-panel project-panel--media">
           <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Moment Kit video 3" muted loop playsinline preload="metadata"></video>
-          <p class="video-caption">A final example of the system feeling responsive without getting in the way.</p>
+          <div class="video-caption">
+            <p>A final example of the system feeling responsive without getting in the way.</p>
+            <div class="video-tags" aria-label="Video details">
+              <span class="video-tag">Launched</span>
+              <span class="video-tag">Impact: More confident actions</span>
+            </div>
+          </div>
         </article>
       </div>
     </section>
