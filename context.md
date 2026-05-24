@@ -43,6 +43,8 @@ A personal **portfolio website** for **Shivanku** (`kshivanku` on GitHub). Stati
 
 No build step, no framework.
 
+Current working branch for this session: `codex/desktop-two-panel-peek`, an experiment branch testing a full-width desktop composition with project intro + primary video + next-video peek.
+
 ---
 
 ## Product vision
@@ -58,7 +60,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | 3 | **Project 2** | Horizontal project strip: intro panel + 3 captioned video panels |
 | 4 | **Project 3** | Horizontal project strip: intro panel + 3 captioned video panels |
 
-**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. Non-final media panels are `min(100vw - 40px, 520px)`; intro panels use the same mobile sizing but can grow to `680px` on desktop. Mobile keeps about a 40px next-panel peek, while wider desktop viewports can show multiple capped panels at once. `Quicksends.mov` is used for Project 1's first video panel; `FoAMediaEdited.mov` is reused for the remaining video panels until unique assets exist. Project videos are paused and reset while offscreen; video panels that are at least half visible in the active project frame play from the beginning.
+**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On this experiment branch, desktop (`min-width: 960px`) uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; other video panels still use `FoAMediaEdited.mov` until unique assets exist. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame.
 
 ### Planned (not built yet)
 
@@ -74,9 +76,10 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 - **CSS scroll snap** — `scroll-snap-type: y mandatory` on `html`
 - Each `.frame` is **`100vh` / `100dvh`** with `scroll-snap-align: start` and `scroll-snap-stop: always`
 - Project frames contain a native horizontal scroll area with `scroll-snap-type: x mandatory`
-- Horizontal media panels are full height and capped at 520px wide; intro panels are capped at 680px; smaller screens preserve a 40px right-side preview of the next panel, while larger screens may show multiple panels
+- Mobile horizontal media panels are full height and capped at 520px wide; smaller screens preserve a 40px right-side preview of the next panel
+- Desktop experiment: the horizontal strip uses the full viewport width so users see the intro panel, primary video panel, and an 80px peek of the next video panel instead of three videos competing at once
 - **No JavaScript scroll snapping logic** — vertical and horizontal snap are native CSS
-- **JavaScript media visibility control only** — horizontal video panels at least half visible in the active project frame start from `0:00`; all other videos pause/reset
+- **JavaScript media visibility control only** — the most vertically visible project frame is active; horizontal video panels start from `0:00` only when fully visible in that frame; all other videos pause/reset
 - **No text overlays** yet
 - **`prefers-reduced-motion`:** snap degrades to `proximity`
 
@@ -97,7 +100,7 @@ Do not invert vertical direction. Scrolling down goes to the next project frame;
 | Layer | Choice |
 |--------|--------|
 | Site | Single `index.html` (CSS + theme JS only) |
-| Assets | `assets/Quicksends.mov` (Project 1 first video panel), `assets/FoAMediaEdited.mov` (shared fallback project video), `assets/ios-mp-collections.png` (old placeholder, no longer used by current frames) |
+| Assets | `assets/UplevelCTA.mov` (Project 1 first video panel), `assets/FoAMediaEdited.mov` (Project 1 second video panel and shared fallback), `assets/Quicksends.mov` (Project 1 third video panel), `assets/ios-mp-collections.png` (old placeholder, no longer used by current frames) |
 | Hosting | GitHub Pages |
 
 ---
@@ -109,6 +112,7 @@ portfolio/
 ├── context.md
 ├── index.html
 └── assets/
+    ├── UplevelCTA.mov
     ├── Quicksends.mov
     ├── FoAMediaEdited.mov
     └── ios-mp-collections.png
@@ -119,6 +123,7 @@ portfolio/
 | Branch | Purpose |
 |--------|---------|
 | **`main`** | Current TikTok-style scroll snap (this doc) |
+| **`codex/desktop-two-panel-peek`** | Experiment: full-width desktop shows intro + primary video + 80px next-video peek |
 | **`experiment/scroll-frame-portfolio`** | Prior attempt: peek hints, blur transitions, in-project text overlays — preserved, not deleted |
 
 ---
@@ -130,8 +135,9 @@ portfolio/
 - [x] Hero + 3 project frames with scroll snap
 - [x] Each project frame has a horizontal intro + 3 captioned video panel strip
 - [x] Horizontal panels are max-width capped on desktop and show a 40px preview of the next panel when one exists
+- [x] Experiment branch desktop composition: full-width intro + primary video + 80px next-video peek
 - [x] Same project video reused across all video panels
-- [x] Project videos only play while at least half visible in the active project frame and restart from the beginning on entry
+- [x] Project videos only play while fully visible in the active project frame and restart from the beginning on entry
 - [x] Light / dark theme toggle, dark default
 - [x] Bidirectional snap (scroll up returns to previous frame)
 
@@ -154,4 +160,4 @@ gh auth status
 
 ---
 
-*Last updated: Project 1 first video panel now uses `Quicksends.mov`; remaining video panels still use `FoAMediaEdited.mov`.*
+*Last updated: Refreshed `Quicksends.mov`, used as Project 1's third video panel.*
