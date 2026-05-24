@@ -160,4 +160,4 @@ gh auth status
 
 ---
 
-*Last updated: Added `.gitignore` for `.DS_Store` and kept project intro title sizing updates.*
+*Last updated: Refreshed `FoAMediaEdited.mov` and `UplevelCTA.mov` video assets while keeping existing filenames and panel assignments.*
