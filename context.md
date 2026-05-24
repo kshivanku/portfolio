@@ -43,8 +43,6 @@ A personal **portfolio website** for **Shivanku** (`kshivanku` on GitHub). Stati
 
 No build step, no framework.
 
-Current working branch for this session: `codex/desktop-two-panel-peek`, an experiment branch testing a full-width desktop composition with project intro + primary video + next-video peek.
-
 ---
 
 ## Product vision
@@ -60,7 +58,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | 3 | **Project 2** | Horizontal project strip: intro panel + 3 captioned video panels |
 | 4 | **Project 3** | Horizontal project strip: intro panel + 3 captioned video panels |
 
-**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On this experiment branch, desktop (`min-width: 960px`) uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; other video panels still use `FoAMediaEdited.mov` until unique assets exist. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame.
+**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On desktop (`min-width: 960px`), the strip uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; other video panels still use `FoAMediaEdited.mov` until unique assets exist. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame.
 
 ### Planned (not built yet)
 
@@ -77,7 +75,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 - Each `.frame` is **`100vh` / `100dvh`** with `scroll-snap-align: start` and `scroll-snap-stop: always`
 - Project frames contain a native horizontal scroll area with `scroll-snap-type: x mandatory`
 - Mobile horizontal media panels are full height and capped at 520px wide; smaller screens preserve a 40px right-side preview of the next panel
-- Desktop experiment: the horizontal strip uses the full viewport width so users see the intro panel, primary video panel, and an 80px peek of the next video panel instead of three videos competing at once
+- Desktop horizontal strips use the full viewport width so users see the intro panel, primary video panel, and an 80px peek of the next video panel instead of three videos competing at once
 - **No JavaScript scroll snapping logic** — vertical and horizontal snap are native CSS
 - **JavaScript media visibility control only** — the most vertically visible project frame is active; horizontal video panels start from `0:00` only when fully visible in that frame; all other videos pause/reset
 - **No text overlays** yet
@@ -122,8 +120,8 @@ portfolio/
 
 | Branch | Purpose |
 |--------|---------|
-| **`main`** | Current TikTok-style scroll snap (this doc) |
-| **`codex/desktop-two-panel-peek`** | Experiment: full-width desktop shows intro + primary video + 80px next-video peek |
+| **`main`** | Current TikTok-style scroll snap with full-width desktop intro + primary video + 80px peek |
+| **`codex/desktop-two-panel-peek`** | Merged experiment branch: full-width desktop shows intro + primary video + 80px next-video peek |
 | **`experiment/scroll-frame-portfolio`** | Prior attempt: peek hints, blur transitions, in-project text overlays — preserved, not deleted |
 
 ---
@@ -135,7 +133,7 @@ portfolio/
 - [x] Hero + 3 project frames with scroll snap
 - [x] Each project frame has a horizontal intro + 3 captioned video panel strip
 - [x] Horizontal panels are max-width capped on desktop and show a 40px preview of the next panel when one exists
-- [x] Experiment branch desktop composition: full-width intro + primary video + 80px next-video peek
+- [x] Desktop composition: full-width intro + primary video + 80px next-video peek
 - [x] Same project video reused across all video panels
 - [x] Project videos only play while fully visible in the active project frame and restart from the beginning on entry
 - [x] Light / dark theme toggle, dark default
@@ -160,4 +158,4 @@ gh auth status
 
 ---
 
-*Last updated: Refreshed `Quicksends.mov`, used as Project 1's third video panel.*
+*Last updated: Merged `codex/desktop-two-panel-peek` into `main`; full-width desktop composition is now mainline behavior.*
