@@ -152,6 +152,37 @@
     line-height: 1.45;
   }
 
+  .project-details {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    gap: 0;
+  }
+
+  .project-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--panel-edge);
+  }
+
+  .project-detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .project-detail-label {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .project-detail-value {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--text);
+    font-weight: 500;
+  }
+
   .frame__media {
     width: 100%;
     min-height: 0;
@@ -279,6 +310,20 @@
           <div class="project-copy">
             <h2>Flow Atlas</h2>
             <p>A compact walkthrough of a product surface, from first impression to polished interaction.</p>
+            <div class="project-details">
+              <div class="project-detail-row">
+                <span class="project-detail-label">Year</span>
+                <span class="project-detail-value">2026</span>
+              </div>
+              <div class="project-detail-row">
+                <span class="project-detail-label">Company</span>
+                <span class="project-detail-value">WhatsApp</span>
+              </div>
+              <div class="project-detail-row">
+                <span class="project-detail-label">Role</span>
+                <span class="project-detail-value">Product designer</span>
+              </div>
+            </div>
           </div>
         </article>
         <article class="project-panel project-panel--media">
@@ -302,6 +347,20 @@
           <div class="project-copy">
             <h2>Signal Desk</h2>
             <p>An exploration of dense information, clear hierarchy, and everyday decision-making tools.</p>
+            <div class="project-details">
+              <div class="project-detail-row">
+                <span class="project-detail-label">Year</span>
+                <span class="project-detail-value">2026</span>
+              </div>
+              <div class="project-detail-row">
+                <span class="project-detail-label">Company</span>
+                <span class="project-detail-value">WhatsApp</span>
+              </div>
+              <div class="project-detail-row">
+                <span class="project-detail-label">Role</span>
+                <span class="project-detail-value">Product designer</span>
+              </div>
+            </div>
           </div>
         </article>
         <article class="project-panel project-panel--media">
@@ -325,6 +384,20 @@
           <div class="project-copy">
             <h2>Moment Kit</h2>
             <p>A set of interface moments focused on motion, clarity, and small delightful transitions.</p>
+            <div class="project-details">
+              <div class="project-detail-row">
+                <span class="project-detail-label">Year</span>
+                <span class="project-detail-value">2026</span>
+              </div>
+              <div class="project-detail-row">
+                <span class="project-detail-label">Company</span>
+                <span class="project-detail-value">WhatsApp</span>
+              </div>
+              <div class="project-detail-row">
+                <span class="project-detail-label">Role</span>
+                <span class="project-detail-value">Product designer</span>
+              </div>
+            </div>
           </div>
         </article>
         <article class="project-panel project-panel--media">
