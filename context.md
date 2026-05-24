@@ -54,15 +54,15 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | # | Frame | Content |
 |---|--------|---------|
 | 1 | **Hero** | Intro heading |
-| 2 | **Project 1** | Full-viewport project video |
-| 3 | **Project 2** | Full-viewport project video |
-| 4 | **Project 3** | Full-viewport project video |
+| 2 | **Project 1** | Horizontal project strip: intro panel + 3 captioned video panels |
+| 3 | **Project 2** | Horizontal project strip: intro panel + 3 captioned video panels |
+| 4 | **Project 3** | Horizontal project strip: intro panel + 3 captioned video panels |
 
-**Four frames total** (hero counts as the first). `FoAMediaEdited.mov` is reused on all project frames until unique assets exist. Project videos are paused and reset while offscreen; when a project frame comes into view, its video starts from the beginning.
+**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. Non-final horizontal panels are `calc(100vw - 40px)` so about 40px of the next panel is always visible as a scroll hint. `FoAMediaEdited.mov` is reused for all video panels until unique assets exist. Project videos are paused and reset while offscreen; when a video panel becomes active in the visible project frame, its video starts from the beginning.
 
 ### Planned (not built yet)
 
-- Text elements at the **bottom** of each frame
+- Final project names, descriptions, and video captions
 - Unique image or video per project
 - Footer after the last project
 - Optional: peek of next frame, in-project overlay scroll (see `experiment/scroll-frame-portfolio` branch for a prior attempt)
@@ -73,12 +73,14 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 
 - **CSS scroll snap** — `scroll-snap-type: y mandatory` on `html`
 - Each `.frame` is **`100vh` / `100dvh`** with `scroll-snap-align: start` and `scroll-snap-stop: always`
-- **No JavaScript scroll logic** — native snap only
-- **JavaScript media visibility control only** — `IntersectionObserver` starts the visible project video from `0:00` and pauses/resets offscreen videos
+- Project frames contain a native horizontal scroll area with `scroll-snap-type: x mandatory`
+- Horizontal project panels are full height; all but the final panel leave a 40px right-side preview of the next panel
+- **No JavaScript scroll snapping logic** — vertical and horizontal snap are native CSS
+- **JavaScript media visibility control only** — the active horizontal video panel in the visible project frame starts from `0:00`; all other videos pause/reset
 - **No text overlays** yet
 - **`prefers-reduced-motion`:** snap degrades to `proximity`
 
-Do not reintroduce long multi-viewport sections or gradual in-frame scroll unless the user asks. The current direction is **strict one-frame-per-snap**.
+Do not invert vertical direction. Scrolling down goes to the next project frame; scrolling up returns to the previous frame. Avoid long multi-viewport vertical sections unless the user asks.
 
 ---
 
@@ -125,8 +127,10 @@ portfolio/
 ### Done
 
 - [x] Hero + 3 project frames with scroll snap
-- [x] Same project video on all project frames
-- [x] Project videos only play while in view and restart from the beginning on entry
+- [x] Each project frame has a horizontal intro + 3 captioned video panel strip
+- [x] Horizontal panels show a 40px preview of the next panel when one exists
+- [x] Same project video reused across all video panels
+- [x] Project videos only play while their horizontal panel is active in the visible project frame and restart from the beginning on entry
 - [x] Light / dark theme toggle, dark default
 - [x] Bidirectional snap (scroll up returns to previous frame)
 
@@ -149,4 +153,4 @@ gh auth status
 
 ---
 
-*Last updated: Refreshed `FoAMediaEdited.mov` shared project video asset; project videos play only while in view and restart from the beginning on entry.*
+*Last updated: Added short captions below every project video panel.*

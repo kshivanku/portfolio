@@ -10,14 +10,21 @@
     color-scheme: dark;
     --bg: #0f0f0f;
     --text: #f0f0f0;
+    --muted: rgba(240, 240, 240, 0.68);
+    --panel: #171717;
+    --panel-edge: rgba(255, 255, 255, 0.08);
     --toggle: rgba(240, 240, 240, 0.4);
     --toggle-hover: rgba(240, 240, 240, 0.75);
+    --peek: 40px;
   }
 
   :root[data-theme="light"] {
     color-scheme: light;
     --bg: #fafafa;
     --text: #1a1a1a;
+    --muted: rgba(26, 26, 26, 0.68);
+    --panel: #f0f0f0;
+    --panel-edge: rgba(0, 0, 0, 0.08);
     --toggle: rgba(26, 26, 26, 0.45);
     --toggle-hover: rgba(26, 26, 26, 0.75);
   }
@@ -71,12 +78,89 @@
     text-align: center;
   }
 
-  .frame__media {
+  .project-strip {
+    display: flex;
     width: 100%;
     height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .project-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-panel {
+    position: relative;
+    flex: 0 0 calc(100vw - var(--peek));
+    width: calc(100vw - var(--peek));
+    height: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    overflow: hidden;
+    background-color: var(--bg);
+  }
+
+  .project-panel:last-child {
+    flex-basis: 100vw;
+    width: 100vw;
+  }
+
+  .project-panel + .project-panel {
+    border-left: 1px solid var(--panel-edge);
+  }
+
+  .project-panel--intro {
+    display: flex;
+    align-items: flex-end;
+    background-color: var(--panel);
+  }
+
+  .project-panel--media {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-copy {
+    max-width: 34rem;
+    padding: 2rem;
+  }
+
+  .project-copy h2 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(2rem, 8vw, 5.5rem);
+    font-weight: 650;
+    line-height: 0.95;
+  }
+
+  .project-copy p {
+    max-width: 28rem;
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    line-height: 1.45;
+  }
+
+  .frame__media {
+    width: 100%;
+    min-height: 0;
+    flex: 1 1 auto;
     object-fit: contain;
     object-position: center center;
     display: block;
+  }
+
+  .video-caption {
+    min-height: 5.5rem;
+    margin: 0;
+    padding: 1rem 1.5rem 1.25rem;
+    color: var(--muted);
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    line-height: 1.35;
   }
 
   .theme-toggle {
@@ -130,6 +214,10 @@
     html {
       scroll-snap-type: y proximity;
     }
+
+    .project-strip {
+      scroll-snap-type: x proximity;
+    }
   }
   </style>
 </head>
@@ -150,15 +238,72 @@
     </section>
 
     <section class="frame frame--project" id="project-1">
-      <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Project 1" muted loop playsinline preload="metadata"></video>
+      <div class="project-strip" aria-label="Project 1 panels">
+        <article class="project-panel project-panel--intro">
+          <div class="project-copy">
+            <h2>Flow Atlas</h2>
+            <p>A compact walkthrough of a product surface, from first impression to polished interaction.</p>
+          </div>
+        </article>
+        <article class="project-panel project-panel--media">
+          <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Flow Atlas video 1" muted loop playsinline preload="metadata"></video>
+          <p class="video-caption">A first pass at the core product flow and how the experience introduces itself.</p>
+        </article>
+        <article class="project-panel project-panel--media">
+          <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Flow Atlas video 2" muted loop playsinline preload="metadata"></video>
+          <p class="video-caption">A closer look at interaction details, transitions, and the rhythm between screens.</p>
+        </article>
+        <article class="project-panel project-panel--media">
+          <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Flow Atlas video 3" muted loop playsinline preload="metadata"></video>
+          <p class="video-caption">A final view of the finished path with the main decisions pulled together.</p>
+        </article>
+      </div>
     </section>
 
     <section class="frame frame--project" id="project-2">
-      <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Project 2" muted loop playsinline preload="metadata"></video>
+      <div class="project-strip" aria-label="Project 2 panels">
+        <article class="project-panel project-panel--intro">
+          <div class="project-copy">
+            <h2>Signal Desk</h2>
+            <p>An exploration of dense information, clear hierarchy, and everyday decision-making tools.</p>
+          </div>
+        </article>
+        <article class="project-panel project-panel--media">
+          <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Signal Desk video 1" muted loop playsinline preload="metadata"></video>
+          <p class="video-caption">A snapshot of the main workspace and the information hierarchy in motion.</p>
+        </article>
+        <article class="project-panel project-panel--media">
+          <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Signal Desk video 2" muted loop playsinline preload="metadata"></video>
+          <p class="video-caption">A focused pass through the controls that help people compare and decide quickly.</p>
+        </article>
+        <article class="project-panel project-panel--media">
+          <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Signal Desk video 3" muted loop playsinline preload="metadata"></video>
+          <p class="video-caption">A wrap-up of the workflow once the dense parts have been clarified.</p>
+        </article>
+      </div>
     </section>
 
     <section class="frame frame--project" id="project-3">
-      <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Project 3" muted loop playsinline preload="metadata"></video>
+      <div class="project-strip" aria-label="Project 3 panels">
+        <article class="project-panel project-panel--intro">
+          <div class="project-copy">
+            <h2>Moment Kit</h2>
+            <p>A set of interface moments focused on motion, clarity, and small delightful transitions.</p>
+          </div>
+        </article>
+        <article class="project-panel project-panel--media">
+          <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Moment Kit video 1" muted loop playsinline preload="metadata"></video>
+          <p class="video-caption">A small interaction moment showing how motion can make state changes easier to follow.</p>
+        </article>
+        <article class="project-panel project-panel--media">
+          <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Moment Kit video 2" muted loop playsinline preload="metadata"></video>
+          <p class="video-caption">A second variation exploring timing, clarity, and feedback at the component level.</p>
+        </article>
+        <article class="project-panel project-panel--media">
+          <video class="frame__media" src="assets/FoAMediaEdited.mov" aria-label="Moment Kit video 3" muted loop playsinline preload="metadata"></video>
+          <p class="video-caption">A final example of the system feeling responsive without getting in the way.</p>
+        </article>
+      </div>
     </section>
   </main>
 
@@ -190,42 +335,110 @@
   })();
 
   (function () {
+    var activeVideo = null;
     var videos = Array.prototype.slice.call(document.querySelectorAll('.frame--project video'));
+    var strips = Array.prototype.slice.call(document.querySelectorAll('.project-strip'));
 
     function resetVideo(video) {
       video.pause();
       video.currentTime = 0;
     }
 
-    function playFromStart(video) {
+    function resetAllExcept(video) {
       videos.forEach(function (candidate) {
         if (candidate !== video) {
           resetVideo(candidate);
         }
       });
+    }
+
+    function playFromStart(video) {
+      resetAllExcept(video);
 
       video.currentTime = 0;
       video.play().catch(function () {});
     }
 
+    function getActiveProject() {
+      var viewportCenter = window.innerHeight / 2;
+      var centeredElement = document.elementFromPoint(window.innerWidth / 2, viewportCenter);
+
+      return centeredElement ? centeredElement.closest('.frame--project') : null;
+    }
+
+    function getActivePanel(strip) {
+      var panels = Array.prototype.slice.call(strip.querySelectorAll('.project-panel'));
+      var activePanel = panels[0];
+      var shortestDistance = Infinity;
+
+      panels.forEach(function (panel) {
+        var distance = Math.abs(panel.offsetLeft - strip.scrollLeft);
+
+        if (distance < shortestDistance) {
+          shortestDistance = distance;
+          activePanel = panel;
+        }
+      });
+
+      return activePanel;
+    }
+
+    function updatePlayback() {
+      var activeProject = getActiveProject();
+      var nextVideo = null;
+
+      if (activeProject) {
+        var strip = activeProject.querySelector('.project-strip');
+        var activePanel = strip ? getActivePanel(strip) : null;
+
+        if (activePanel) {
+          nextVideo = activePanel.querySelector('video');
+        }
+      }
+
+      if (nextVideo && nextVideo !== activeVideo) {
+        activeVideo = nextVideo;
+        playFromStart(nextVideo);
+      } else if (nextVideo && nextVideo.paused) {
+        nextVideo.play().catch(function () {});
+      } else if (!nextVideo) {
+        activeVideo = null;
+        videos.forEach(resetVideo);
+      } else {
+        resetAllExcept(nextVideo);
+      }
+    }
+
+    function schedulePlaybackUpdate() {
+      window.requestAnimationFrame(updatePlayback);
+    }
+
+    videos.forEach(resetVideo);
+
+    window.addEventListener('scroll', schedulePlaybackUpdate, { passive: true });
+    window.addEventListener('resize', schedulePlaybackUpdate);
+
+    strips.forEach(function (strip) {
+      strip.addEventListener('scroll', schedulePlaybackUpdate, { passive: true });
+    });
+
     if ('IntersectionObserver' in window) {
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.65) {
-            playFromStart(entry.target);
-          } else {
+          if (!entry.isIntersecting && entry.target === activeVideo) {
+            activeVideo = null;
             resetVideo(entry.target);
           }
         });
-      }, { threshold: [0, 0.65] });
+      }, { threshold: 0 });
 
       videos.forEach(function (video) {
-        resetVideo(video);
         observer.observe(video);
       });
-    } else {
-      videos.forEach(resetVideo);
     }
+
+    updatePlayback();
+    window.setInterval(updatePlayback, 250);
   })();
   </script>
 </body>
