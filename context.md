@@ -58,7 +58,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | 3 | **Project 2** | Horizontal project strip: intro panel + 3 captioned video panels |
 | 4 | **Project 3** | Horizontal project strip: intro panel + 3 captioned video panels |
 
-**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. Non-final media panels are `min(100vw - 40px, 520px)`; intro panels use the same mobile sizing but can grow to `680px` on desktop. Mobile keeps about a 40px next-panel peek, while wider desktop viewports can show multiple capped panels at once. `FoAMediaEdited.mov` is reused for all video panels until unique assets exist. Project videos are paused and reset while offscreen; video panels that are at least half visible in the active project frame play from the beginning.
+**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with a short caption below the video. Non-final media panels are `min(100vw - 40px, 520px)`; intro panels use the same mobile sizing but can grow to `680px` on desktop. Mobile keeps about a 40px next-panel peek, while wider desktop viewports can show multiple capped panels at once. `Quicksends.mov` is used for Project 1's first video panel; `FoAMediaEdited.mov` is reused for the remaining video panels until unique assets exist. Project videos are paused and reset while offscreen; video panels that are at least half visible in the active project frame play from the beginning.
 
 ### Planned (not built yet)
 
@@ -97,7 +97,7 @@ Do not invert vertical direction. Scrolling down goes to the next project frame;
 | Layer | Choice |
 |--------|--------|
 | Site | Single `index.html` (CSS + theme JS only) |
-| Assets | `assets/FoAMediaEdited.mov` (shared project video), `assets/ios-mp-collections.png` (old placeholder, no longer used by current frames) |
+| Assets | `assets/Quicksends.mov` (Project 1 first video panel), `assets/FoAMediaEdited.mov` (shared fallback project video), `assets/ios-mp-collections.png` (old placeholder, no longer used by current frames) |
 | Hosting | GitHub Pages |
 
 ---
@@ -109,6 +109,7 @@ portfolio/
 ├── context.md
 ├── index.html
 └── assets/
+    ├── Quicksends.mov
     ├── FoAMediaEdited.mov
     └── ios-mp-collections.png
 ```
@@ -153,4 +154,4 @@ gh auth status
 
 ---
 
-*Last updated: Intro panels are wider than media panels on desktop, and multiple visible desktop video panels can play together.*
+*Last updated: Project 1 first video panel now uses `Quicksends.mov`; remaining video panels still use `FoAMediaEdited.mov`.*
