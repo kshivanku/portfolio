@@ -149,4 +149,4 @@ gh auth status
 
 ---
 
-*Last updated: Project videos now play only while in view and restart from the beginning on entry; hero + 3 projects, no overlay text yet.*
+*Last updated: Refreshed `FoAMediaEdited.mov` shared project video asset; project videos play only while in view and restart from the beginning on entry.*
