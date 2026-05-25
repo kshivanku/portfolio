@@ -63,60 +63,101 @@
   }
 
   .frame--hero {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: clamp(2rem, 6vw, 5rem);
     padding: clamp(1.5rem, 5vw, 5rem);
   }
 
   .hero-copy {
-    width: min(100%, 60rem);
-  }
-
-  .hero-kicker {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    margin: 0 0 1.25rem;
-    color: var(--muted);
-    font-size: clamp(1rem, 2vw, 1.35rem);
-    font-weight: 600;
-    line-height: 1.25;
-    text-align: center;
-  }
-
-  .hero-wave {
-    display: inline-block;
-    transform-origin: 70% 70%;
-    animation: wave 2.4s ease-in-out infinite;
+    align-self: center;
+    width: 100%;
   }
 
   .frame__heading {
-    max-width: 58rem;
+    max-width: 100%;
     margin: 0;
-    line-height: 1.04;
-    font-size: clamp(2.75rem, 6.6vw, 6.25rem);
-    font-weight: 720;
-    text-align: center;
+    line-height: 0.86;
+    font-size: clamp(4.5rem, 16vw, 13rem);
+    font-weight: 780;
+    letter-spacing: 0;
   }
 
-  @keyframes wave {
-    0%,
-    56%,
-    100% {
-      transform: rotate(0deg);
-    }
+  .hero-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(2rem, 6vw, 5rem);
+    width: 100%;
+  }
 
-    8%,
-    24% {
-      transform: rotate(16deg);
-    }
+  .hero-intro {
+    max-width: 34rem;
+  }
 
-    16%,
-    32% {
-      transform: rotate(-10deg);
-    }
+  .hero-description {
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(1.35rem, 2.4vw, 2rem);
+    font-weight: 650;
+    line-height: 1.22;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    padding: 1rem 1.35rem;
+    border-radius: 999px;
+    background-color: #3f6268;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 750;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .hero-cta:hover,
+  .hero-cta:focus-visible {
+    background-color: #4b747b;
+    transform: translateY(-1px);
+  }
+
+  .hero-cta:focus-visible {
+    outline: 2px solid var(--toggle-hover);
+    outline-offset: 3px;
+  }
+
+  .hero-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(1.25rem, 3vw, 2.25rem);
+    flex-wrap: wrap;
+  }
+
+  .hero-nav a {
+    color: var(--text);
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .hero-nav a:hover,
+  .hero-nav a:focus-visible {
+    color: var(--toggle-hover);
+    border-color: currentColor;
+  }
+
+  .hero-nav a:focus-visible {
+    outline: 2px solid var(--toggle-hover);
+    outline-offset: 3px;
   }
 
   .project-strip {
@@ -500,10 +541,6 @@
     html {
       scroll-snap-type: y proximity;
     }
-
-    .hero-wave {
-      animation: none;
-    }
   }
 
   @media (min-width: 960px) {
@@ -543,6 +580,24 @@
   }
 
   @media (max-width: 640px) {
+    .frame--hero {
+      grid-template-rows: auto 1fr;
+      align-content: center;
+    }
+
+    .frame__heading {
+      font-size: clamp(4rem, 22vw, 7rem);
+    }
+
+    .hero-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-nav {
+      justify-content: flex-start;
+    }
+
     .resume-item {
       grid-template-columns: 1fr;
       gap: 0.85rem;
@@ -590,8 +645,18 @@
   <main class="feed">
     <section class="frame frame--hero" id="hero">
       <div class="hero-copy">
-        <p class="hero-kicker">Hi, I’m Shivanku <span class="hero-wave" aria-hidden="true">👋</span></p>
-        <h1 class="frame__heading">I design and build products that feel simple, intuitive and are used by millions globally.</h1>
+        <h1 class="frame__heading">Shivanku Kumar</h1>
+      </div>
+      <div class="hero-footer">
+        <div class="hero-intro">
+          <p class="hero-description">I design and build products that feel simple, intuitive and are used by millions globally.</p>
+          <a class="hero-cta" href="#project-1">Explore work</a>
+        </div>
+        <nav class="hero-nav" aria-label="Primary navigation">
+          <a href="#project-1">Work</a>
+          <a href="#resume">Resume</a>
+          <a href="https://www.linkedin.com/in/kshivanku/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </nav>
       </div>
     </section>
 
@@ -1052,6 +1117,17 @@
 
         if (project) {
           project.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    Array.prototype.slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        var target = document.querySelector(link.getAttribute('href'));
+
+        if (target) {
+          event.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
     });
