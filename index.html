@@ -438,6 +438,7 @@
   .video-case-study {
     display: inline-flex;
     align-items: center;
+    gap: 0.35rem;
     margin-top: 0.75rem;
     padding: 0.5rem 0.75rem;
     border: 1px solid var(--panel-edge);
@@ -448,6 +449,13 @@
     line-height: 1;
     text-decoration: none;
     transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .video-case-study::after {
+    content: "\2197";
+    font-size: 0.72rem;
+    line-height: 1;
+    transform: translateY(-0.02rem);
   }
 
   .video-case-study:hover,

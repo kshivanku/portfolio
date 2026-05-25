@@ -178,4 +178,4 @@ gh auth status
 
 ---
 
-*Last updated: Kept light-mode gradients and changed dark-mode video panels to solid grey.*
+*Last updated: Added external-link arrow to video case study buttons.*
