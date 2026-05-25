@@ -58,7 +58,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | 3 | **Project 2** | Horizontal project strip: intro panel + 3 captioned video panels |
 | 4 | **Project 3** | Horizontal project strip: intro panel + 3 captioned video panels |
 
-**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with centered caption text and two subtle metadata pills for status and impact below the caption. The intro panel now displays the project title, description, and four work experience rows (Year, Company, Role, Platform) with labels on the left and values on the right. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On desktop (`min-width: 960px`), the strip uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; Project 2 video order is `vHubDemo.mov`, `VHubReviewDemo.mov`, then `AdditionalIncomeReview.mov`; other video panels still use `FoAMediaEdited.mov` until unique assets exist. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame.
+**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with centered caption text and two subtle metadata pills for status and impact below the caption. The intro panel now displays the project title, description, and four work experience rows (Year, Company, Role, Platform) with labels on the left and values on the right. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On desktop (`min-width: 960px`), the strip uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; Project 2 video order is `vHubDemo.mov`, `VHubReviewDemo.mov`, then `AdditionalIncomeReview.mov`; other video panels still use `FoAMediaEdited.mov` until unique assets exist. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame. Tapping/clicking a video, or focusing it and pressing Enter/Space, opens it in native fullscreen where supported.
 
 ### Planned (not built yet)
 
@@ -78,6 +78,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 - Desktop horizontal strips use the full viewport width so users see the intro panel, primary video panel, and an 80px peek of the next video panel instead of three videos competing at once
 - **No JavaScript scroll snapping logic** — vertical and horizontal snap are native CSS
 - **JavaScript media visibility control only** — the most vertically visible project frame is active; horizontal video panels start from `0:00` only when fully visible in that frame; all other videos pause/reset
+- Project videos are focusable and open in native fullscreen on click/tap, Enter, or Space; iOS Safari uses `webkitEnterFullscreen` fallback
 - **No text overlays** yet
 - **`prefers-reduced-motion`:** snap degrades to `proximity`
 
@@ -141,6 +142,7 @@ portfolio/
 - [x] Desktop composition: full-width intro + primary video + 80px next-video peek
 - [x] Same project video reused across all video panels
 - [x] Project videos only play while fully visible in the active project frame and restart from the beginning on entry
+- [x] Project videos open in fullscreen on click/tap or keyboard activation
 - [x] Light / dark theme toggle, dark default
 - [x] Bidirectional snap (scroll up returns to previous frame)
 - [x] Work experience details (Year, Company, Role, Platform) displayed in intro panel with label-value layout
@@ -164,4 +166,4 @@ gh auth status
 
 ---
 
-*Last updated: Refreshed Project 2's `vHubDemo.mov` and `VHubReviewDemo.mov`, and added `AdditionalIncomeReview.mov` as Project 2's third video panel.*
+*Last updated: Added native fullscreen support for project videos via click/tap and keyboard activation.*

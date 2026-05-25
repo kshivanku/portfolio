@@ -190,6 +190,12 @@
     object-fit: contain;
     object-position: center center;
     display: block;
+    cursor: pointer;
+  }
+
+  .frame__media:focus-visible {
+    outline: 2px solid var(--toggle-hover);
+    outline-offset: -4px;
   }
 
   .video-caption {
@@ -551,6 +557,23 @@
       video.play().catch(function () {});
     }
 
+    function openVideoFullscreen(video) {
+      if (video.requestFullscreen) {
+        video.requestFullscreen().catch(function () {});
+      } else if (video.webkitEnterFullscreen) {
+        video.webkitEnterFullscreen();
+      }
+
+      video.play().catch(function () {});
+    }
+
+    function handleFullscreenKey(event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openVideoFullscreen(event.currentTarget);
+      }
+    }
+
     function getActiveProject() {
       var projects = Array.prototype.slice.call(document.querySelectorAll('.frame--project'));
       var activeProject = null;
@@ -616,7 +639,17 @@
       window.setTimeout(updatePlayback, 320);
     }
 
-    videos.forEach(resetVideo);
+    videos.forEach(function (video) {
+      var label = video.getAttribute('aria-label') || 'Project video';
+
+      video.setAttribute('tabindex', '0');
+      video.setAttribute('aria-label', label + ', open fullscreen');
+      video.addEventListener('click', function () {
+        openVideoFullscreen(video);
+      });
+      video.addEventListener('keydown', handleFullscreenKey);
+      resetVideo(video);
+    });
 
     window.addEventListener('scroll', schedulePlaybackUpdate, { passive: true });
     window.addEventListener('resize', schedulePlaybackUpdate);
