@@ -420,24 +420,22 @@
     margin-top: 0.5rem;
   }
 
-  .frame--contact {
-    height: 52vh;
-    height: 52dvh;
-    padding: clamp(2rem, 6vw, 5rem);
-    border-top: 1px solid var(--panel-edge);
-    overflow: hidden;
-  }
-
   .contact-footer {
     display: flex;
     width: 100%;
-    height: 100%;
+    min-height: 52vh;
+    min-height: 52dvh;
+    margin-top: clamp(4rem, 8vw, 7rem);
+    padding: clamp(2rem, 6vw, 5rem) 0;
+    border-top: 1px solid var(--panel-edge);
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 1.5rem;
     text-align: center;
   }
 
-  .contact-footer a {
+  .contact-footer__email {
     color: var(--text);
     font-family: var(--title-font);
     font-size: 3rem;
@@ -452,14 +450,39 @@
     animation-delay: calc(0.2s + var(--letter-index) * 32ms);
   }
 
-  .contact-footer a:hover,
-  .contact-footer a:focus-visible {
+  .contact-footer__email:hover,
+  .contact-footer__email:focus-visible {
     color: var(--toggle-hover);
   }
 
-  .contact-footer a:focus-visible {
+  .contact-footer__email:focus-visible {
     outline: 2px solid var(--toggle-hover);
     outline-offset: 6px;
+  }
+
+  .contact-footer__link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.7rem 0.95rem;
+    border: 1px solid var(--panel-edge);
+    border-radius: 999px;
+    color: var(--text);
+    font-size: 0.92rem;
+    font-weight: 650;
+    line-height: 1;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .contact-footer__link:hover,
+  .contact-footer__link:focus-visible {
+    border-color: var(--toggle-hover);
+    color: var(--toggle-hover);
+  }
+
+  .contact-footer__link:focus-visible {
+    outline: 2px solid var(--toggle-hover);
+    outline-offset: 3px;
   }
 
   .theme-toggle {
@@ -771,13 +794,13 @@
       margin: 0;
     }
 
-    .contact-footer a {
+    .contact-footer__email {
       font-size: 5.5rem;
     }
   }
 
   @media (min-width: 1280px) {
-    .contact-footer a {
+    .contact-footer__email {
       font-size: 8rem;
     }
   }
@@ -797,9 +820,9 @@
       gap: 0.85rem;
     }
 
-    .frame--contact {
-      height: 44vh;
-      height: 44dvh;
+    .contact-footer {
+      min-height: 44vh;
+      min-height: 44dvh;
     }
   }
   </style>
@@ -853,7 +876,6 @@
     <nav class="menu-nav" aria-label="Menu navigation">
       <a href="#project-1" tabindex="-1">Work</a>
       <a href="#resume" tabindex="-1">Resume</a>
-      <a href="https://www.linkedin.com/in/kshivanku/" target="_blank" rel="noopener noreferrer" tabindex="-1">LinkedIn</a>
       <a href="#contact" tabindex="-1">Contact</a>
     </nav>
   </div>
@@ -873,7 +895,6 @@
           <nav class="hero-nav" aria-label="Primary navigation">
             <a href="#project-1">Work</a>
             <a href="#resume">Resume</a>
-            <a href="https://www.linkedin.com/in/kshivanku/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             <a href="#contact">Contact</a>
           </nav>
         </div>
@@ -1150,18 +1171,17 @@
             </div>
           </article>
         </section>
+
+        <footer class="contact-footer" id="contact">
+          <a class="contact-footer__email" href="mailto:kshivanku@gmail.com" aria-label="Email Shivanku at kshivanku@gmail.com">
+            <span aria-hidden="true">
+              <span class="hero-letter" style="--letter-index: 0;">K</span><span class="hero-letter" style="--letter-index: 1;">S</span><span class="hero-letter" style="--letter-index: 2;">H</span><span class="hero-letter" style="--letter-index: 3;">I</span><span class="hero-letter" style="--letter-index: 4;">V</span><span class="hero-letter" style="--letter-index: 5;">A</span><span class="hero-letter" style="--letter-index: 6;">N</span><span class="hero-letter" style="--letter-index: 7;">K</span><span class="hero-letter" style="--letter-index: 8;">U</span><span class="hero-letter" style="--letter-index: 9;">@</span><span class="hero-letter" style="--letter-index: 10;">G</span><span class="hero-letter" style="--letter-index: 11;">M</span><span class="hero-letter" style="--letter-index: 12;">A</span><span class="hero-letter" style="--letter-index: 13;">I</span><span class="hero-letter" style="--letter-index: 14;">L</span><span class="hero-letter" style="--letter-index: 15;">.</span><span class="hero-letter" style="--letter-index: 16;">C</span><span class="hero-letter" style="--letter-index: 17;">O</span><span class="hero-letter" style="--letter-index: 18;">M</span>
+            </span>
+          </a>
+          <a class="contact-footer__link" href="https://www.linkedin.com/in/kshivanku/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </footer>
       </div>
     </section>
-
-    <footer class="frame frame--contact" id="contact">
-      <div class="contact-footer">
-        <a href="mailto:kshivanku@gmail.com" aria-label="Email Shivanku at kshivanku@gmail.com">
-          <span aria-hidden="true">
-            <span class="hero-letter" style="--letter-index: 0;">K</span><span class="hero-letter" style="--letter-index: 1;">S</span><span class="hero-letter" style="--letter-index: 2;">H</span><span class="hero-letter" style="--letter-index: 3;">I</span><span class="hero-letter" style="--letter-index: 4;">V</span><span class="hero-letter" style="--letter-index: 5;">A</span><span class="hero-letter" style="--letter-index: 6;">N</span><span class="hero-letter" style="--letter-index: 7;">K</span><span class="hero-letter" style="--letter-index: 8;">U</span><span class="hero-letter" style="--letter-index: 9;">@</span><span class="hero-letter" style="--letter-index: 10;">G</span><span class="hero-letter" style="--letter-index: 11;">M</span><span class="hero-letter" style="--letter-index: 12;">A</span><span class="hero-letter" style="--letter-index: 13;">I</span><span class="hero-letter" style="--letter-index: 14;">L</span><span class="hero-letter" style="--letter-index: 15;">.</span><span class="hero-letter" style="--letter-index: 16;">C</span><span class="hero-letter" style="--letter-index: 17;">O</span><span class="hero-letter" style="--letter-index: 18;">M</span>
-          </span>
-        </a>
-      </div>
-    </footer>
   </main>
 
   <script>
