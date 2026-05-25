@@ -230,6 +230,94 @@
     white-space: nowrap;
   }
 
+  .frame--resume {
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: clamp(4.5rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
+  }
+
+  .resume {
+    width: min(100%, 72rem);
+    margin: 0 auto;
+  }
+
+  .resume__header {
+    max-width: 42rem;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .resume__eyebrow {
+    margin: 0 0 0.75rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 650;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .resume h2 {
+    margin: 0;
+    font-size: clamp(2.25rem, 6vw, 5.5rem);
+    font-weight: 650;
+    line-height: 0.95;
+  }
+
+  .resume__section + .resume__section {
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .resume__section-title {
+    margin: 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--panel-edge);
+    color: var(--text);
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    font-weight: 650;
+  }
+
+  .resume-item {
+    display: grid;
+    grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--panel-edge);
+  }
+
+  .resume-item:last-child {
+    border-bottom: none;
+  }
+
+  .resume-item__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .resume-item__org,
+  .resume-item__role {
+    margin: 0;
+    color: var(--text);
+    font-size: 0.98rem;
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  .resume-item__dates,
+  .resume-item__body,
+  .resume-item__detail {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .resume-item__body + .resume-item__body,
+  .resume-item__detail {
+    margin-top: 0.5rem;
+  }
+
   .theme-toggle {
     position: fixed;
     top: 1rem;
@@ -313,6 +401,13 @@
 
     .project-copy h2 {
       font-size: clamp(2.5rem, 4vw, 4.5rem);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .resume-item {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
     }
   }
   </style>
@@ -496,6 +591,113 @@
             </div>
           </div>
         </article>
+      </div>
+    </section>
+
+    <section class="frame frame--resume" id="resume">
+      <div class="resume">
+        <header class="resume__header">
+          <p class="resume__eyebrow">Resume</p>
+          <h2>Work experience and education</h2>
+        </header>
+
+        <section class="resume__section" aria-labelledby="resume-work">
+          <h3 class="resume__section-title" id="resume-work">Work experience</h3>
+
+          <article class="resume-item">
+            <div class="resume-item__meta">
+              <p class="resume-item__org">Meta</p>
+              <p class="resume-item__dates">2025 - Present</p>
+            </div>
+            <div>
+              <h4 class="resume-item__role">Product Designer</h4>
+              <p class="resume-item__body">Leading product-led growth on WhatsApp by identifying and addressing key user needs in the U.S. market. Designed and implemented AI-native projects end-to-end, driving 2M+ growth in WhatsApp's U.S. MAU.</p>
+            </div>
+          </article>
+
+          <article class="resume-item">
+            <div class="resume-item__meta">
+              <p class="resume-item__org">SoFi</p>
+              <p class="resume-item__dates">2021 - 2025</p>
+            </div>
+            <div>
+              <h4 class="resume-item__role">Staff Product Designer</h4>
+              <p class="resume-item__body">Designed home loan products for mortgages, refinancing, and home equity end-to-end, delivering intuitive experiences across web and mobile.</p>
+              <p class="resume-item__body">Launched features that grew the Home Loans business to a funded volume in the billions; improved NPS from -8 to +70.</p>
+              <p class="resume-item__body">Partnered with cross-functional leaders to define long-term product vision and scale SoFi's design system.</p>
+            </div>
+          </article>
+
+          <article class="resume-item">
+            <div class="resume-item__meta">
+              <p class="resume-item__org">Orbia, IDEO</p>
+              <p class="resume-item__dates">2019 - 2021</p>
+            </div>
+            <div>
+              <h4 class="resume-item__role">Interaction Designer</h4>
+              <p class="resume-item__body">As part of an interdisciplinary team at IDEO's Lighthouse Lab, researched, prototyped, and presented new ventures to Orbia's executive team.</p>
+            </div>
+          </article>
+
+          <article class="resume-item">
+            <div class="resume-item__meta">
+              <p class="resume-item__org">PayPal</p>
+              <p class="resume-item__dates">2018 - 2019</p>
+            </div>
+            <div>
+              <h4 class="resume-item__role">Design Technologist</h4>
+              <p class="resume-item__body">Designed and developed prototypes to improve the end-to-end experience for PayPal's merchants and partners.</p>
+            </div>
+          </article>
+
+          <article class="resume-item">
+            <div class="resume-item__meta">
+              <p class="resume-item__org">GoZoomo</p>
+              <p class="resume-item__dates">2015 - 2016</p>
+            </div>
+            <div>
+              <h4 class="resume-item__role">Head of Design</h4>
+              <p class="resume-item__body">Built and managed the design team; defined the product design practice from the ground up.</p>
+            </div>
+          </article>
+
+          <article class="resume-item">
+            <div class="resume-item__meta">
+              <p class="resume-item__org">Globant</p>
+              <p class="resume-item__dates">2012 - 2015</p>
+            </div>
+            <div>
+              <h4 class="resume-item__role">Senior User Experience Designer</h4>
+              <p class="resume-item__body">Led end-to-end design across insurance e-commerce and IoT SaaS products, covering research, design, testing, and client engagement.</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="resume__section" aria-labelledby="resume-education">
+          <h3 class="resume__section-title" id="resume-education">Education</h3>
+
+          <article class="resume-item">
+            <div class="resume-item__meta">
+              <p class="resume-item__org">ITP, NYU</p>
+              <p class="resume-item__dates">2016 - 2018</p>
+            </div>
+            <div>
+              <h4 class="resume-item__role">Master of Professional Studies</h4>
+              <p class="resume-item__detail">Interaction Design</p>
+            </div>
+          </article>
+
+          <article class="resume-item">
+            <div class="resume-item__meta">
+              <p class="resume-item__org">IIT Guwahati</p>
+              <p class="resume-item__dates">2008 - 2012</p>
+            </div>
+            <div>
+              <h4 class="resume-item__role">Bachelor of Design</h4>
+              <p class="resume-item__detail">Interaction and Graphic Design</p>
+            </div>
+          </article>
+        </section>
       </div>
     </section>
   </main>
