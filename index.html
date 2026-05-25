@@ -21,6 +21,7 @@
     --desktop-intro: 34vw;
     --body-font: "Inter", system-ui, -apple-system, sans-serif;
     --title-font: "Anton", Impact, sans-serif;
+    --nav-control-size: 2.25rem;
   }
 
   :root[data-theme="light"] {
@@ -50,6 +51,10 @@
     background-color: var(--bg);
     color: var(--text);
     transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  body.menu-open {
+    overflow: hidden;
   }
 
   .feed {
@@ -462,20 +467,141 @@
     display: block;
   }
 
-  .project-indicator {
+  .menu-toggle {
     position: fixed;
-    top: 50%;
-    right: clamp(0.75rem, 2vw, 1.5rem);
+    top: 1rem;
+    left: 1rem;
+    z-index: 130;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nav-control-size);
+    height: var(--nav-control-size);
+    padding: 0;
+    border: 1px solid var(--panel-edge);
+    border-radius: 999px;
+    background-color: rgba(15, 15, 15, 0.56);
+    color: var(--toggle);
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .menu-toggle.is-visible,
+  .menu-toggle.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  :root[data-theme="light"] .menu-toggle {
+    background-color: rgba(250, 250, 250, 0.72);
+  }
+
+  .menu-toggle:hover,
+  .menu-toggle:focus-visible {
+    border-color: var(--toggle-hover);
+    color: var(--toggle-hover);
+  }
+
+  .menu-toggle:focus-visible {
+    outline: 2px solid var(--toggle-hover);
+    outline-offset: 3px;
+  }
+
+  .menu-toggle svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+  }
+
+  .menu-toggle path {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .menu-toggle.is-open path:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  .menu-toggle.is-open path:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle.is-open path:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+
+  .menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1.5rem, 5vw, 5rem);
+    background-color: var(--bg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .menu-overlay.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .menu-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1.25rem, 4vw, 2.5rem);
+    text-align: center;
+  }
+
+  .menu-nav a {
+    color: var(--text);
+    font-family: var(--title-font);
+    font-size: clamp(4rem, 13vw, 10rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .menu-nav a:hover,
+  .menu-nav a:focus-visible {
+    color: var(--toggle-hover);
+  }
+
+  .menu-nav a:focus-visible {
+    outline: 2px solid var(--toggle-hover);
+    outline-offset: 6px;
+  }
+
+  .project-indicator {
+    --indicator-gap: 0.65rem;
+    position: fixed;
+    top: 4rem;
+    left: 1rem;
     z-index: 90;
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
-    padding: 0.35rem;
+    gap: var(--indicator-gap);
+    align-items: center;
+    justify-content: center;
+    width: var(--nav-control-size);
+    padding: 1rem 0.125rem;
     border: 1px solid var(--panel-edge);
     border-radius: 999px;
     background-color: rgba(15, 15, 15, 0.56);
     backdrop-filter: blur(12px);
-    transform: translateY(-50%);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
@@ -495,9 +621,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.3rem;
-    width: 2rem;
-    min-height: 2rem;
+    gap: var(--indicator-gap);
+    width: 100%;
     padding: 0;
     border: none;
     background: transparent;
@@ -508,6 +633,12 @@
     line-height: 1;
     cursor: pointer;
     transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .project-indicator__button > span {
+    display: block;
+    width: 100%;
+    text-align: center;
   }
 
   .project-indicator__button:hover,
@@ -522,13 +653,14 @@
 
   .project-indicator__button[aria-current="true"] {
     color: var(--text);
-    transform: translateX(-0.15rem);
   }
 
   .project-indicator__dots {
     display: none;
     flex-direction: column;
-    gap: 0.18rem;
+    align-items: center;
+    gap: var(--indicator-gap);
+    width: 100%;
     pointer-events: none;
   }
 
@@ -537,17 +669,17 @@
   }
 
   .project-indicator__dot {
-    width: 0.24rem;
-    height: 0.24rem;
+    width: 0.28rem;
+    height: 0.28rem;
+    flex: 0 0 auto;
     border-radius: 999px;
     background-color: currentColor;
     opacity: 0.28;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.2s ease;
   }
 
   .project-indicator__dot.is-active {
     opacity: 1;
-    transform: scale(1.3);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -626,6 +758,14 @@
     </svg>
   </button>
 
+  <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="site-menu" aria-expanded="false">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 7h14" />
+      <path d="M5 12h14" />
+      <path d="M5 17h14" />
+    </svg>
+  </button>
+
   <nav class="project-indicator" aria-label="Project navigation" aria-hidden="true">
     <button class="project-indicator__button" type="button" data-project-target="project-1" aria-label="Go to project 1" tabindex="-1">
       <span>1</span>
@@ -651,6 +791,14 @@
       </span>
     </button>
   </nav>
+
+  <div class="menu-overlay" id="site-menu" aria-hidden="true">
+    <nav class="menu-nav" aria-label="Menu navigation">
+      <a href="#project-1" tabindex="-1">Work</a>
+      <a href="#resume" tabindex="-1">Resume</a>
+      <a href="https://www.linkedin.com/in/kshivanku/" target="_blank" rel="noopener noreferrer" tabindex="-1">LinkedIn</a>
+    </nav>
+  </div>
 
   <main class="feed">
     <section class="frame frame--hero" id="hero">
@@ -979,6 +1127,9 @@
     var videoPanels = Array.prototype.slice.call(document.querySelectorAll('.project-panel--media'));
     var projectIndicator = document.querySelector('.project-indicator');
     var projectIndicatorButtons = Array.prototype.slice.call(document.querySelectorAll('.project-indicator__button'));
+    var menuToggle = document.querySelector('.menu-toggle');
+    var menuOverlay = document.querySelector('.menu-overlay');
+    var menuLinks = Array.prototype.slice.call(document.querySelectorAll('.menu-nav a'));
     var playingVideos = [];
 
     function resetVideo(video) {
@@ -1009,6 +1160,54 @@
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
         openVideoFullscreen(event.currentTarget);
+      }
+    }
+
+    function openMenu() {
+      if (!menuOverlay || !menuToggle) {
+        return;
+      }
+
+      menuOverlay.classList.add('is-open');
+      menuOverlay.setAttribute('aria-hidden', 'false');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      menuToggle.setAttribute('aria-label', 'Close menu');
+      menuToggle.classList.add('is-open');
+      document.body.classList.add('menu-open');
+      menuLinks.forEach(function (link) {
+        link.setAttribute('tabindex', '0');
+      });
+      menuToggle.focus();
+    }
+
+    function closeMenu() {
+      if (!menuOverlay || !menuToggle) {
+        return;
+      }
+
+      menuOverlay.classList.remove('is-open');
+      menuOverlay.setAttribute('aria-hidden', 'true');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Open menu');
+      menuToggle.classList.remove('is-open');
+      document.body.classList.remove('menu-open');
+      menuLinks.forEach(function (link) {
+        link.setAttribute('tabindex', '-1');
+      });
+    }
+
+    function updateMenuVisibility() {
+      if (!menuToggle) {
+        return;
+      }
+
+      var firstProject = document.getElementById('project-1');
+      var shouldShowMenu = firstProject && firstProject.getBoundingClientRect().top <= 1;
+
+      menuToggle.classList.toggle('is-visible', Boolean(shouldShowMenu));
+
+      if (!shouldShowMenu) {
+        closeMenu();
       }
     }
 
@@ -1134,6 +1333,26 @@
       });
     });
 
+    if (menuToggle) {
+      menuToggle.addEventListener('click', function () {
+        if (menuOverlay && menuOverlay.classList.contains('is-open')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+    }
+
+    menuLinks.forEach(function (link) {
+      link.addEventListener('click', closeMenu);
+    });
+
+    window.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
     Array.prototype.slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function (link) {
       link.addEventListener('click', function (event) {
         var target = document.querySelector(link.getAttribute('href'));
@@ -1146,7 +1365,9 @@
     });
 
     window.addEventListener('scroll', schedulePlaybackUpdate, { passive: true });
+    window.addEventListener('scroll', updateMenuVisibility, { passive: true });
     window.addEventListener('resize', schedulePlaybackUpdate);
+    window.addEventListener('resize', updateMenuVisibility);
 
     if ('IntersectionObserver' in window) {
       var observer = new IntersectionObserver(function (entries) {
@@ -1166,6 +1387,7 @@
     }
 
     updatePlayback();
+    updateMenuVisibility();
     window.setInterval(updatePlayback, 250);
   })();
   </script>
