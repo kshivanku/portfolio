@@ -364,10 +364,19 @@
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
+    padding: 0.35rem;
+    border: 1px solid var(--panel-edge);
+    border-radius: 999px;
+    background-color: rgba(15, 15, 15, 0.56);
+    backdrop-filter: blur(12px);
     transform: translateY(-50%);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
+  }
+
+  :root[data-theme="light"] .project-indicator {
+    background-color: rgba(250, 250, 250, 0.72);
   }
 
   .project-indicator.is-visible {
