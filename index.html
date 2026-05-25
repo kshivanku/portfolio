@@ -97,6 +97,19 @@
     letter-spacing: 0;
   }
 
+  .frame__heading.is-released {
+    cursor: pointer;
+    isolation: isolate;
+  }
+
+  .frame__heading.is-released .hero-letter {
+    overflow: visible;
+  }
+
+  .frame__heading.is-released .text-reveal__glyph {
+    mix-blend-mode: difference;
+  }
+
   .hero-letter {
     display: inline-block;
     overflow: hidden;
@@ -1412,6 +1425,7 @@
     var videoPanels = Array.prototype.slice.call(document.querySelectorAll('.project-panel--media'));
     var projectIndicator = document.querySelector('.project-indicator');
     var projectIndicatorButtons = Array.prototype.slice.call(document.querySelectorAll('.project-indicator__button'));
+    var heroHeading = document.querySelector('.frame__heading');
     var menuToggle = document.querySelector('.menu-toggle');
     var menuOverlay = document.querySelector('.menu-overlay');
     var menuLinks = Array.prototype.slice.call(document.querySelectorAll('.menu-nav a'));
@@ -1419,6 +1433,8 @@
     var playingVideos = [];
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var gsapAvailable = Boolean(window.gsap) && !reduceMotion;
+    var heroDriftTweens = [];
+    var heroReleaseTimer = null;
 
     function wrapRevealText(element) {
       if (!element || element.querySelector('.text-reveal__glyph') || !element.textContent.trim()) {
@@ -1443,8 +1459,11 @@
       window.gsap.set(revealGlyphsAll, { yPercent: 100 });
     }
 
-    function revealGlyphs(glyphs, stagger) {
+    function revealGlyphs(glyphs, stagger, onComplete) {
       if (!gsapAvailable || !glyphs.length) {
+        if (onComplete) {
+          onComplete();
+        }
         return;
       }
 
@@ -1456,9 +1475,104 @@
           yPercent: 0,
           duration: 0.8,
           ease: 'power3.out',
-          stagger: stagger
+          stagger: stagger,
+          onComplete: onComplete
         }
       );
+    }
+
+    function stopHeroDrift() {
+      heroDriftTweens.forEach(function (tween) {
+        tween.kill();
+      });
+      heroDriftTweens = [];
+      if (gsapAvailable && heroGlyphs.length) {
+        window.gsap.killTweensOf(heroGlyphs);
+      }
+    }
+
+    function getHeroDriftBounds(glyph, heroRect, padding) {
+      var heroFrame = document.querySelector('.frame--hero');
+
+      if (!heroFrame && !heroRect) {
+        return { minX: -120, maxX: 120, minY: -80, maxY: 120 };
+      }
+
+      var activeHeroRect = heroRect || heroFrame.getBoundingClientRect();
+      var glyphRect = glyph.getBoundingClientRect();
+      var activePadding = padding || Math.min(48, Math.max(20, window.innerWidth * 0.03));
+
+      return {
+        minX: activeHeroRect.left + activePadding - glyphRect.left,
+        maxX: activeHeroRect.right - activePadding - glyphRect.right,
+        minY: activeHeroRect.top + activePadding - glyphRect.top,
+        maxY: activeHeroRect.bottom - activePadding - glyphRect.bottom
+      };
+    }
+
+    function startHeroDrift() {
+      if (!gsapAvailable || !heroHeading || !heroGlyphs.length) {
+        return;
+      }
+
+      window.clearTimeout(heroReleaseTimer);
+      heroHeading.classList.add('is-released');
+      stopHeroDrift();
+
+      var heroFrame = document.querySelector('.frame--hero');
+      var heroRect = heroFrame ? heroFrame.getBoundingClientRect() : null;
+      var padding = Math.min(48, Math.max(20, window.innerWidth * 0.03));
+      var driftBounds = heroGlyphs.map(function (glyph) {
+        return getHeroDriftBounds(glyph, heroRect, padding);
+      });
+
+      heroGlyphs.forEach(function (glyph, index) {
+        var bounds = driftBounds[index];
+        var tween = window.gsap.to(glyph, {
+          x: function () {
+            return window.gsap.utils.random(bounds.minX, bounds.maxX);
+          },
+          y: function () {
+            return window.gsap.utils.random(bounds.minY, bounds.maxY);
+          },
+          rotation: function () {
+            return window.gsap.utils.random(-18, 18);
+          },
+          duration: function () {
+            return window.gsap.utils.random(5.5, 9);
+          },
+          delay: index * 0.018,
+          ease: 'sine.inOut',
+          repeat: -1,
+          repeatRefresh: true,
+          yoyo: true
+        });
+
+        heroDriftTweens.push(tween);
+      });
+    }
+
+    function assembleHeroName() {
+      if (!gsapAvailable || !heroHeading || !heroGlyphs.length) {
+        return;
+      }
+
+      window.clearTimeout(heroReleaseTimer);
+      heroHeading.classList.add('is-released');
+      stopHeroDrift();
+      window.gsap.to(heroGlyphs, {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        duration: 0.34,
+        ease: 'power4.out',
+        stagger: 0.006
+      });
+    }
+
+    function assembleHeroTemporarily() {
+      assembleHeroName();
+      heroReleaseTimer = window.setTimeout(startHeroDrift, 1200);
     }
 
     function hideMenuGlyphs() {
@@ -1683,6 +1797,19 @@
       });
     });
 
+    if (heroHeading && gsapAvailable) {
+      heroHeading.setAttribute('tabindex', '0');
+      heroHeading.addEventListener('mouseenter', assembleHeroName);
+      heroHeading.addEventListener('mouseleave', startHeroDrift);
+      heroHeading.addEventListener('focusin', assembleHeroName);
+      heroHeading.addEventListener('focusout', startHeroDrift);
+      heroHeading.addEventListener('pointerdown', function (event) {
+        if (event.pointerType !== 'mouse') {
+          assembleHeroTemporarily();
+        }
+      });
+    }
+
     if (menuToggle) {
       menuToggle.addEventListener('click', function () {
         if (menuOverlay && menuOverlay.classList.contains('is-open')) {
@@ -1748,12 +1875,14 @@
       }
     }
 
+    function runHeroReveal() {
+      revealGlyphs(heroGlyphs, 0.045, startHeroDrift);
+    }
+
     if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(function () {
-        revealGlyphs(heroGlyphs, 0.045);
-      });
+      document.fonts.ready.then(runHeroReveal);
     } else {
-      revealGlyphs(heroGlyphs, 0.045);
+      runHeroReveal();
     }
 
     updatePlayback();
