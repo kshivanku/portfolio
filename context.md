@@ -58,7 +58,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | 3 | **Project 2** | Horizontal project strip: intro panel + 3 captioned video panels |
 | 4 | **Project 3** | Horizontal project strip: intro panel + 3 captioned video panels |
 
-**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with centered caption text and two subtle metadata pills for status and impact below the caption. The intro panel now displays the project title, description, and four work experience rows (Year, Company, Role, Platform) with labels on the left and values on the right. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On desktop (`min-width: 960px`), the strip uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; Project 2's first video panel uses `vHubDemo.mov`; other video panels still use `FoAMediaEdited.mov` until unique assets exist. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame.
+**Four vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by three video panels, each with centered caption text and two subtle metadata pills for status and impact below the caption. The intro panel now displays the project title, description, and four work experience rows (Year, Company, Role, Platform) with labels on the left and values on the right. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On desktop (`min-width: 960px`), the strip uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; Project 2 video order is `vHubDemo.mov`, `VHubReviewDemo.mov`, then `FoAMediaEdited.mov`; other video panels still use `FoAMediaEdited.mov` until unique assets exist. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame.
 
 ### Planned (not built yet)
 
@@ -98,7 +98,7 @@ Do not invert vertical direction. Scrolling down goes to the next project frame;
 | Layer | Choice |
 |--------|--------|
 | Site | Single `index.html` (CSS + theme JS only) |
-| Assets | `assets/UplevelCTA.mov` (Project 1 first video panel), `assets/FoAMediaEdited.mov` (Project 1 second video panel and shared fallback), `assets/Quicksends.mov` (Project 1 third video panel), `assets/vHubDemo.mov` (Project 2 first video panel), `assets/ios-mp-collections.png` (old placeholder, no longer used by current frames) |
+| Assets | `assets/UplevelCTA.mov` (Project 1 first video panel), `assets/FoAMediaEdited.mov` (Project 1 second video panel and shared fallback), `assets/Quicksends.mov` (Project 1 third video panel), `assets/vHubDemo.mov` (Project 2 first video panel), `assets/VHubReviewDemo.mov` (Project 2 second video panel), `assets/ios-mp-collections.png` (old placeholder, no longer used by current frames) |
 | Hosting | GitHub Pages |
 
 ---
@@ -114,6 +114,7 @@ portfolio/
     ├── UplevelCTA.mov
     ├── Quicksends.mov
     ├── vHubDemo.mov
+    ├── VHubReviewDemo.mov
     ├── FoAMediaEdited.mov
     └── ios-mp-collections.png
 ```
@@ -162,4 +163,4 @@ gh auth status
 
 ---
 
-*Last updated: Added Platform detail row to all project intro panels; Platform is the final borderless row.*
+*Last updated: Project 2's second video panel now uses `VHubReviewDemo.mov`.*
