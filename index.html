@@ -66,16 +66,57 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: clamp(1.5rem, 5vw, 5rem);
+  }
+
+  .hero-copy {
+    width: min(100%, 74rem);
+  }
+
+  .hero-kicker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .hero-wave {
+    display: inline-block;
+    transform-origin: 70% 70%;
+    animation: wave 2.4s ease-in-out infinite;
   }
 
   .frame__heading {
-    max-width: 42rem;
+    max-width: 68rem;
     margin: 0;
-    padding: 2rem;
-    line-height: 1.4;
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
-    font-weight: 500;
+    line-height: 0.98;
+    font-size: clamp(3.25rem, 9vw, 8.75rem);
+    font-weight: 760;
     text-align: center;
+  }
+
+  @keyframes wave {
+    0%,
+    56%,
+    100% {
+      transform: rotate(0deg);
+    }
+
+    8%,
+    24% {
+      transform: rotate(16deg);
+    }
+
+    16%,
+    32% {
+      transform: rotate(-10deg);
+    }
   }
 
   .project-strip {
@@ -406,6 +447,7 @@
 
   .project-indicator__dots {
     display: none;
+    flex-direction: column;
     gap: 0.18rem;
     pointer-events: none;
   }
@@ -431,6 +473,10 @@
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-snap-type: y proximity;
+    }
+
+    .hero-wave {
+      animation: none;
     }
   }
 
@@ -517,7 +563,10 @@
 
   <main class="feed">
     <section class="frame frame--hero" id="hero">
-      <h1 class="frame__heading">Hi, I’m Shivanku. I design and build products that feel simple, intuitive and are used by millions globally.</h1>
+      <div class="hero-copy">
+        <p class="hero-kicker">Hi, I’m Shivanku <span class="hero-wave" aria-hidden="true">👋</span></p>
+        <h1 class="frame__heading">I design and build products that feel simple, intuitive and are used by millions globally.</h1>
+      </div>
     </section>
 
     <section class="frame frame--project" id="project-1">
