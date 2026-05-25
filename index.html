@@ -99,31 +99,18 @@
 
   .hero-letter {
     display: inline-block;
-    opacity: 0;
-    transform: translateY(-0.55em);
-    animation: letter-drop 0.65s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
-    animation-delay: calc(var(--letter-index) * 45ms);
+    overflow: hidden;
+    vertical-align: bottom;
   }
 
   .hero-letter--space {
-    width: 0.28em;
+    width: 0.16em;
+    overflow: visible;
   }
 
-  @keyframes letter-drop {
-    0% {
-      opacity: 0;
-      transform: translateY(-0.55em);
-    }
-
-    70% {
-      opacity: 1;
-      transform: translateY(0.06em);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .text-reveal__glyph {
+    display: inline-block;
+    will-change: transform;
   }
 
   .hero-footer {
@@ -485,14 +472,7 @@
   }
 
   .contact-footer .hero-letter {
-    animation: none;
-    opacity: 0;
-    transform: translateY(-0.55em);
-  }
-
-  .contact-footer.is-visible .hero-letter {
-    animation: letter-drop 0.65s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
-    animation-delay: calc(var(--letter-index) * 32ms);
+    overflow: hidden;
   }
 
   .contact-footer__email:hover,
@@ -637,7 +617,7 @@
   }
 
   .menu-toggle path {
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.2, 0.85, 0.25, 1);
     transform-box: fill-box;
     transform-origin: center;
   }
@@ -664,13 +644,16 @@
     padding: clamp(1.5rem, 5vw, 5rem);
     background-color: var(--bg);
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.32s ease, visibility 0s linear 0.32s;
   }
 
   .menu-overlay.is-open {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
+    transition-delay: 0s;
   }
 
   .menu-nav {
@@ -689,6 +672,9 @@
     line-height: 0.95;
     letter-spacing: 0;
     text-decoration: none;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
     transition: color 0.2s ease;
   }
 
@@ -805,9 +791,17 @@
     }
 
     .hero-letter {
-      opacity: 1;
+      overflow: visible;
+    }
+
+    .menu-toggle path,
+    .menu-overlay,
+    .menu-nav a {
+      transition: none;
+    }
+
+    .text-reveal__glyph {
       transform: none;
-      animation: none;
     }
   }
 
@@ -1250,6 +1244,7 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script>
   (function () {
     var root = document.documentElement;
@@ -1287,6 +1282,66 @@
     var menuLinks = Array.prototype.slice.call(document.querySelectorAll('.menu-nav a'));
     var contactFooter = document.querySelector('.contact-footer');
     var playingVideos = [];
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var gsapAvailable = Boolean(window.gsap) && !reduceMotion;
+
+    function wrapRevealText(element) {
+      if (!element || element.querySelector('.text-reveal__glyph') || !element.textContent.trim()) {
+        return;
+      }
+
+      var glyph = document.createElement('span');
+      glyph.className = 'text-reveal__glyph';
+      glyph.textContent = element.textContent;
+      element.textContent = '';
+      element.appendChild(glyph);
+    }
+
+    Array.prototype.slice.call(document.querySelectorAll('.hero-letter:not(.hero-letter--space), .menu-nav a')).forEach(wrapRevealText);
+
+    var heroGlyphs = Array.prototype.slice.call(document.querySelectorAll('.frame__heading .text-reveal__glyph'));
+    var menuGlyphs = Array.prototype.slice.call(document.querySelectorAll('.menu-nav .text-reveal__glyph'));
+    var contactGlyphs = Array.prototype.slice.call(document.querySelectorAll('.contact-footer .text-reveal__glyph'));
+    var revealGlyphsAll = heroGlyphs.concat(menuGlyphs, contactGlyphs);
+
+    if (gsapAvailable) {
+      window.gsap.set(revealGlyphsAll, { yPercent: 100 });
+    }
+
+    function revealGlyphs(glyphs, stagger) {
+      if (!gsapAvailable || !glyphs.length) {
+        return;
+      }
+
+      window.gsap.killTweensOf(glyphs);
+      window.gsap.fromTo(
+        glyphs,
+        { yPercent: 100 },
+        {
+          yPercent: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: stagger
+        }
+      );
+    }
+
+    function hideMenuGlyphs() {
+      if (!gsapAvailable || !menuGlyphs.length) {
+        return;
+      }
+
+      window.gsap.killTweensOf(menuGlyphs);
+      window.gsap.to(menuGlyphs, {
+        yPercent: -100,
+        duration: 0.32,
+        ease: 'power3.in',
+        stagger: 0.025,
+        onComplete: function () {
+          window.gsap.set(menuGlyphs, { yPercent: 100 });
+        }
+      });
+    }
 
     function resetVideo(video) {
       video.pause();
@@ -1333,6 +1388,9 @@
       menuLinks.forEach(function (link) {
         link.setAttribute('tabindex', '0');
       });
+      window.requestAnimationFrame(function () {
+        revealGlyphs(menuGlyphs, 0.08);
+      });
       menuToggle.focus();
     }
 
@@ -1347,6 +1405,7 @@
       menuToggle.setAttribute('aria-label', 'Open menu');
       menuToggle.classList.remove('is-open');
       document.body.classList.remove('menu-open');
+      hideMenuGlyphs();
       menuLinks.forEach(function (link) {
         link.setAttribute('tabindex', '-1');
       });
@@ -1545,17 +1604,21 @@
         var contactObserver = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-              contactFooter.classList.remove('is-visible');
-              void contactFooter.offsetWidth;
-              contactFooter.classList.add('is-visible');
+              revealGlyphs(contactGlyphs, 0.036);
             }
           });
         }, { threshold: 0.35 });
 
         contactObserver.observe(contactFooter);
       }
-    } else if (contactFooter) {
-      contactFooter.classList.add('is-visible');
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () {
+        revealGlyphs(heroGlyphs, 0.045);
+      });
+    } else {
+      revealGlyphs(heroGlyphs, 0.045);
     }
 
     updatePlayback();
