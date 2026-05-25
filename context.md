@@ -174,4 +174,4 @@ gh auth status
 
 ---
 
-*Last updated: Set body copy and the hero description to normal 400 font weight.*
+*Last updated: Added a subtle top border to the first project where it peeks below the hero.*
