@@ -84,6 +84,7 @@
   }
 
   .hero-copy {
+    position: relative;
     width: 100%;
   }
 
@@ -124,6 +125,26 @@
   .text-reveal__glyph {
     display: inline-block;
     will-change: transform;
+  }
+
+  .hero-return-hint {
+    position: absolute;
+    top: -0.85rem;
+    left: 0.15rem;
+    color: var(--muted);
+    font-size: clamp(0.72rem, 1vw, 0.9rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.35rem);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  .frame__heading.is-drifting + .hero-return-hint {
+    opacity: 0.46;
+    transform: translateY(0);
   }
 
   .hero-footer {
@@ -1082,6 +1103,7 @@
             <span class="hero-letter" style="--letter-index: 0;">S</span><span class="hero-letter" style="--letter-index: 1;">h</span><span class="hero-letter" style="--letter-index: 2;">i</span><span class="hero-letter" style="--letter-index: 3;">v</span><span class="hero-letter" style="--letter-index: 4;">a</span><span class="hero-letter" style="--letter-index: 5;">n</span><span class="hero-letter" style="--letter-index: 6;">k</span><span class="hero-letter" style="--letter-index: 7;">u</span><span class="hero-letter hero-letter--space" style="--letter-index: 8;"></span><span class="hero-letter" style="--letter-index: 9;">K</span><span class="hero-letter" style="--letter-index: 10;">u</span><span class="hero-letter" style="--letter-index: 11;">m</span><span class="hero-letter" style="--letter-index: 12;">a</span><span class="hero-letter" style="--letter-index: 13;">r</span>
           </span>
         </h1>
+        <p class="hero-return-hint" aria-hidden="true">come back</p>
       </div>
       <div class="hero-footer">
         <div class="hero-intro">
@@ -1517,6 +1539,7 @@
 
       window.clearTimeout(heroReleaseTimer);
       heroHeading.classList.add('is-released');
+      heroHeading.classList.add('is-drifting');
       stopHeroDrift();
 
       var heroFrame = document.querySelector('.frame--hero');
@@ -1545,7 +1568,7 @@
           ease: 'sine.inOut',
           repeat: -1,
           repeatRefresh: true,
-          yoyo: true
+          yoyo: false
         });
 
         heroDriftTweens.push(tween);
@@ -1559,6 +1582,7 @@
 
       window.clearTimeout(heroReleaseTimer);
       heroHeading.classList.add('is-released');
+      heroHeading.classList.remove('is-drifting');
       stopHeroDrift();
       window.gsap.to(heroGlyphs, {
         x: 0,
