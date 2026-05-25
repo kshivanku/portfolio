@@ -283,8 +283,8 @@
   }
 
   .video-caption {
-    min-height: 7rem;
-    padding: 1rem 1.5rem 1.25rem;
+    min-height: 8rem;
+    padding: 1rem 1.5rem 1.75rem;
     color: var(--muted);
     font-size: clamp(0.95rem, 2vw, 1.1rem);
     line-height: 1.35;
@@ -314,17 +314,55 @@
     white-space: nowrap;
   }
 
+  .video-tag--launched {
+    border-color: rgba(86, 176, 112, 0.35);
+    background-color: rgba(86, 176, 112, 0.1);
+    color: #6fbd82;
+  }
+
+  .video-tag--development {
+    border-color: rgba(209, 171, 74, 0.38);
+    background-color: rgba(209, 171, 74, 0.11);
+    color: #d0ad5a;
+  }
+
+  .video-case-study {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--panel-edge);
+    border-radius: 999px;
+    color: var(--text);
+    font-size: 0.78rem;
+    font-weight: 650;
+    line-height: 1;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .video-case-study:hover,
+  .video-case-study:focus-visible {
+    border-color: var(--toggle-hover);
+    color: var(--toggle-hover);
+  }
+
+  .video-case-study:focus-visible {
+    outline: 2px solid var(--toggle-hover);
+    outline-offset: 3px;
+  }
+
   .frame--resume {
     min-height: 100vh;
     min-height: 100dvh;
     overflow-x: hidden;
     overflow-y: auto;
-    padding: clamp(4.5rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
   }
 
   .resume {
     width: min(100%, 72rem);
     margin: 0 auto;
+    padding: clamp(4.5rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem) 0;
   }
 
   .resume__header {
@@ -422,16 +460,16 @@
 
   .contact-footer {
     display: flex;
-    width: 100%;
-    min-height: 52vh;
-    min-height: 52dvh;
+    width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
     margin-top: clamp(4rem, 8vw, 7rem);
-    padding: clamp(2rem, 6vw, 5rem) 0;
+    padding: clamp(2rem, 6vw, 5rem);
     border-top: 1px solid var(--panel-edge);
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: clamp(2.75rem, 6vw, 5rem);
     text-align: center;
   }
 
@@ -447,7 +485,14 @@
   }
 
   .contact-footer .hero-letter {
-    animation-delay: calc(0.2s + var(--letter-index) * 32ms);
+    animation: none;
+    opacity: 0;
+    transform: translateY(-0.55em);
+  }
+
+  .contact-footer.is-visible .hero-letter {
+    animation: letter-drop 0.65s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
+    animation-delay: calc(var(--letter-index) * 32ms);
   }
 
   .contact-footer__email:hover,
@@ -458,6 +503,13 @@
   .contact-footer__email:focus-visible {
     outline: 2px solid var(--toggle-hover);
     outline-offset: 6px;
+  }
+
+  .contact-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
   }
 
   .contact-footer__link {
@@ -821,8 +873,8 @@
     }
 
     .contact-footer {
-      min-height: 44vh;
-      min-height: 44dvh;
+      min-height: 100vh;
+      min-height: 100dvh;
     }
   }
   </style>
@@ -932,9 +984,10 @@
           <div class="video-caption">
             <p>Easily cross-post WhatsApp status to Facebook or Instagram story.</p>
             <div class="video-tags" aria-label="Video details">
-              <span class="video-tag">Launched</span>
+              <span class="video-tag video-tag--launched">Launched</span>
               <span class="video-tag">Impact: 80M+ MAU</span>
             </div>
+            <a class="video-case-study" href="https://www.shivanku.com/cross-app-experiences-for-whatsapp" target="_blank" rel="noopener noreferrer">View case study</a>
           </div>
         </article>
         <article class="project-panel project-panel--media">
@@ -942,9 +995,11 @@
           <div class="video-caption">
             <p>Access media posted to Instagram and Facebook directly from the WhatsApp media picker.</p>
             <div class="video-tags" aria-label="Video details">
-              <span class="video-tag">In development. Concept prototyped in production code.</span>
-              <span class="video-tag">Estimated impact: 40M+ MAU</span>
+              <span class="video-tag video-tag--development">In development</span>
+              <span class="video-tag">Vibe coded in production code</span>
+              <span class="video-tag">Est. impact: 40M+ MAU</span>
             </div>
+            <a class="video-case-study" href="https://www.shivanku.com/cross-app-experiences-for-whatsapp" target="_blank" rel="noopener noreferrer">View case study</a>
           </div>
         </article>
         <article class="project-panel project-panel--media">
@@ -952,9 +1007,11 @@
           <div class="video-caption">
             <p>Quickly share links from Instagram to WhatsApp, without leaving the app.</p>
             <div class="video-tags" aria-label="Video details">
-              <span class="video-tag">In development. Concept prototyped in production code.</span>
-              <span class="video-tag">Estimated impact: 60M+ MAU</span>
+              <span class="video-tag video-tag--development">In development</span>
+              <span class="video-tag">Vibe coded in production code</span>
+              <span class="video-tag">Est. impact: 60M+ MAU</span>
             </div>
+            <a class="video-case-study" href="https://www.shivanku.com/cross-app-experiences-for-whatsapp" target="_blank" rel="noopener noreferrer">View case study</a>
           </div>
         </article>
       </div>
@@ -991,9 +1048,10 @@
           <div class="video-caption">
             <p>Document collection hub</p>
             <div class="video-tags" aria-label="Video details">
-              <span class="video-tag">Launched</span>
+              <span class="video-tag video-tag--launched">Launched</span>
               <span class="video-tag">Impact: 30% increase in document submission rate</span>
             </div>
+            <a class="video-case-study" href="https://www.shivanku.com/verificationhub" target="_blank" rel="noopener noreferrer">View View case study</a>
           </div>
         </article>
         <article class="project-panel project-panel--media">
@@ -1001,9 +1059,10 @@
           <div class="video-caption">
             <p>Document review hub.</p>
             <div class="video-tags" aria-label="Video details">
-              <span class="video-tag">Launched</span>
+              <span class="video-tag video-tag--launched">Launched</span>
               <span class="video-tag">Impact: 15% reduction in support call volume</span>
             </div>
+            <a class="video-case-study" href="https://www.shivanku.com/verificationhub" target="_blank" rel="noopener noreferrer">View View case study</a>
           </div>
         </article>
         <article class="project-panel project-panel--media">
@@ -1011,9 +1070,10 @@
           <div class="video-caption">
             <p>Comprehensive income collection.</p>
             <div class="video-tags" aria-label="Video details">
-              <span class="video-tag">Launched</span>
+              <span class="video-tag video-tag--launched">Launched</span>
               <span class="video-tag">Impact: Reduced processing time by 20%</span>
             </div>
+            <a class="video-case-study" href="https://www.shivanku.com/verificationhub" target="_blank" rel="noopener noreferrer">View View case study</a>
           </div>
         </article>
       </div>
@@ -1050,9 +1110,10 @@
           <div class="video-caption">
             <p>Pulse check. In-app survey that educates users on the home loans process.</p>
             <div class="video-tags" aria-label="Video details">
-              <span class="video-tag">Launched</span>
+              <span class="video-tag video-tag--launched">Launched</span>
               <span class="video-tag">Impact: 800 applications generated</span>
             </div>
+            <a class="video-case-study" href="https://www.shivanku.com/vision-for-home-loans" target="_blank" rel="noopener noreferrer">View View case study</a>
           </div>
         </article>
         <article class="project-panel project-panel--media">
@@ -1062,6 +1123,7 @@
             <div class="video-tags" aria-label="Video details">
               <span class="video-tag">Concept</span>
             </div>
+            <a class="video-case-study" href="https://www.shivanku.com/vision-for-home-loans" target="_blank" rel="noopener noreferrer">View View case study</a>
           </div>
         </article>
       </div>
@@ -1171,16 +1233,21 @@
             </div>
           </article>
         </section>
-
-        <footer class="contact-footer" id="contact">
-          <a class="contact-footer__email" href="mailto:kshivanku@gmail.com" aria-label="Email Shivanku at kshivanku@gmail.com">
-            <span aria-hidden="true">
-              <span class="hero-letter" style="--letter-index: 0;">K</span><span class="hero-letter" style="--letter-index: 1;">S</span><span class="hero-letter" style="--letter-index: 2;">H</span><span class="hero-letter" style="--letter-index: 3;">I</span><span class="hero-letter" style="--letter-index: 4;">V</span><span class="hero-letter" style="--letter-index: 5;">A</span><span class="hero-letter" style="--letter-index: 6;">N</span><span class="hero-letter" style="--letter-index: 7;">K</span><span class="hero-letter" style="--letter-index: 8;">U</span><span class="hero-letter" style="--letter-index: 9;">@</span><span class="hero-letter" style="--letter-index: 10;">G</span><span class="hero-letter" style="--letter-index: 11;">M</span><span class="hero-letter" style="--letter-index: 12;">A</span><span class="hero-letter" style="--letter-index: 13;">I</span><span class="hero-letter" style="--letter-index: 14;">L</span><span class="hero-letter" style="--letter-index: 15;">.</span><span class="hero-letter" style="--letter-index: 16;">C</span><span class="hero-letter" style="--letter-index: 17;">O</span><span class="hero-letter" style="--letter-index: 18;">M</span>
-            </span>
-          </a>
-          <a class="contact-footer__link" href="https://www.linkedin.com/in/kshivanku/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </footer>
       </div>
+
+      <footer class="contact-footer" id="contact">
+        <a class="contact-footer__email" href="mailto:kshivanku@gmail.com" aria-label="Email Shivanku at kshivanku@gmail.com">
+          <span aria-hidden="true">
+            <span class="hero-letter" style="--letter-index: 0;">K</span><span class="hero-letter" style="--letter-index: 1;">S</span><span class="hero-letter" style="--letter-index: 2;">H</span><span class="hero-letter" style="--letter-index: 3;">I</span><span class="hero-letter" style="--letter-index: 4;">V</span><span class="hero-letter" style="--letter-index: 5;">A</span><span class="hero-letter" style="--letter-index: 6;">N</span><span class="hero-letter" style="--letter-index: 7;">K</span><span class="hero-letter" style="--letter-index: 8;">U</span><span class="hero-letter" style="--letter-index: 9;">@</span><span class="hero-letter" style="--letter-index: 10;">G</span><span class="hero-letter" style="--letter-index: 11;">M</span><span class="hero-letter" style="--letter-index: 12;">A</span><span class="hero-letter" style="--letter-index: 13;">I</span><span class="hero-letter" style="--letter-index: 14;">L</span><span class="hero-letter" style="--letter-index: 15;">.</span><span class="hero-letter" style="--letter-index: 16;">C</span><span class="hero-letter" style="--letter-index: 17;">O</span><span class="hero-letter" style="--letter-index: 18;">M</span>
+          </span>
+        </a>
+        <div class="contact-footer__links" aria-label="Social links">
+          <a class="contact-footer__link" href="https://www.linkedin.com/in/kshivanku/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="contact-footer__link" href="https://www.instagram.com/kshivanku/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a class="contact-footer__link" href="https://github.com/kshivanku" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="contact-footer__link" href="https://x.com/kshivanku" target="_blank" rel="noopener noreferrer">X</a>
+        </div>
+      </footer>
     </section>
   </main>
 
@@ -1219,6 +1286,7 @@
     var menuToggle = document.querySelector('.menu-toggle');
     var menuOverlay = document.querySelector('.menu-overlay');
     var menuLinks = Array.prototype.slice.call(document.querySelectorAll('.menu-nav a'));
+    var contactFooter = document.querySelector('.contact-footer');
     var playingVideos = [];
 
     function resetVideo(video) {
@@ -1473,6 +1541,22 @@
       videos.forEach(function (video) {
         observer.observe(video);
       });
+
+      if (contactFooter) {
+        var contactObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              contactFooter.classList.remove('is-visible');
+              void contactFooter.offsetWidth;
+              contactFooter.classList.add('is-visible');
+            }
+          });
+        }, { threshold: 0.35 });
+
+        contactObserver.observe(contactFooter);
+      }
+    } else if (contactFooter) {
+      contactFooter.classList.add('is-visible');
     }
 
     updatePlayback();
