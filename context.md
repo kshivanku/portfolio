@@ -59,7 +59,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | 4 | **Project 3** | Horizontal project strip: intro panel + 2 captioned video panels |
 | 5 | **Resume** | Work experience and education from the attached CV |
 
-**Five vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by captioned video panels, each with centered caption text and two subtle metadata pills for status and impact below the caption. The intro panel now displays the project title, description, and four work experience rows (Year, Company, Role, Platform) with labels on the left and values on the right. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On desktop (`min-width: 960px`), the strip uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; Project 2 video order is `vHubDemo.mov`, `VHubReviewDemo.mov`, then `AdditionalIncomeReview.mov`; Project 3 video order is `Pulsecheck.mov`, then `HLHub.mov`. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame. Tapping/clicking a video, or focusing it and pressing Enter/Space, opens it in native fullscreen where supported. The resume frame follows the projects with a minimal work experience and education layout using plain rows and separators instead of cards.
+**Five vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by captioned video panels, each with centered caption text and two subtle metadata pills for status and impact below the caption. The intro panel now displays the project title, description, and four work experience rows (Year, Company, Role, Platform) with labels on the left and values on the right. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On desktop (`min-width: 960px`), the strip uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; Project 2 video order is `vHubDemo.mov`, `VHubReviewDemo.mov`, then `AdditionalIncomeReview.mov`; Project 3 video order is `Pulsecheck.mov`, then `HLHub.mov`. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame. Tapping/clicking a video, or focusing it and pressing Enter/Space, opens it in native fullscreen where supported. A subtle right-side project indicator appears only while one of the three project frames is active; it marks projects 1, 2, or 3 and can be clicked to jump between project frames. The resume frame follows the projects with a minimal work experience and education layout using plain rows and separators instead of cards.
 
 ### Planned (not built yet)
 
@@ -80,6 +80,7 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 - Desktop horizontal strips use the full viewport width so users see the intro panel, primary video panel, and an 80px peek of the next video panel instead of three videos competing at once
 - **No JavaScript scroll snapping logic** — vertical and horizontal snap are native CSS
 - **JavaScript media visibility control only** — the most vertically visible project frame is active; horizontal video panels start from `0:00` only when fully visible in that frame; all other videos pause/reset
+- Project indicator uses the same active project detection as media playback, appears only from Project 1 through Project 3, and hides on the hero and resume frames
 - Project videos are focusable and open in native fullscreen on click/tap, Enter, or Space; iOS Safari uses `webkitEnterFullscreen` fallback
 - **No text overlays** yet
 - **`prefers-reduced-motion`:** snap degrades to `proximity`
@@ -149,6 +150,7 @@ portfolio/
 - [x] Project videos open in fullscreen on click/tap or keyboard activation
 - [x] Light / dark theme toggle, dark default
 - [x] Bidirectional snap (scroll up returns to previous frame)
+- [x] Right-side project indicator appears on project frames and highlights the active project
 - [x] Work experience details (Year, Company, Role, Platform) displayed in intro panel with label-value layout
 - [x] Resume section after projects with work experience and education from the CV
 
@@ -171,4 +173,4 @@ gh auth status
 
 ---
 
-*Last updated: Added a minimal resume section with work experience and education after the project frames.*
+*Last updated: Added a subtle right-side project indicator for the three project frames.*

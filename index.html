@@ -356,6 +356,58 @@
     display: block;
   }
 
+  .project-indicator {
+    position: fixed;
+    top: 50%;
+    right: clamp(0.75rem, 2vw, 1.5rem);
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transform: translateY(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .project-indicator.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .project-indicator__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--toggle);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 650;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .project-indicator__button:hover,
+  .project-indicator__button:focus-visible {
+    color: var(--toggle-hover);
+  }
+
+  .project-indicator__button:focus-visible {
+    outline: 1px solid var(--toggle-hover);
+    outline-offset: 2px;
+  }
+
+  .project-indicator__button[aria-current="true"] {
+    color: var(--text);
+    transform: translateX(-0.15rem);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-snap-type: y proximity;
@@ -413,6 +465,12 @@
       <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
     </svg>
   </button>
+
+  <nav class="project-indicator" aria-label="Project navigation" aria-hidden="true">
+    <button class="project-indicator__button" type="button" data-project-target="project-1" aria-label="Go to project 1" tabindex="-1">1</button>
+    <button class="project-indicator__button" type="button" data-project-target="project-2" aria-label="Go to project 2" tabindex="-1">2</button>
+    <button class="project-indicator__button" type="button" data-project-target="project-3" aria-label="Go to project 3" tabindex="-1">3</button>
+  </nav>
 
   <main class="feed">
     <section class="frame frame--hero" id="hero">
@@ -722,6 +780,8 @@
   (function () {
     var videos = Array.prototype.slice.call(document.querySelectorAll('.frame--project video'));
     var strips = Array.prototype.slice.call(document.querySelectorAll('.project-strip'));
+    var projectIndicator = document.querySelector('.project-indicator');
+    var projectIndicatorButtons = Array.prototype.slice.call(document.querySelectorAll('.project-indicator__button'));
     var playingVideos = [];
 
     function resetVideo(video) {
@@ -773,6 +833,21 @@
       return largestVisibleHeight > 0 ? activeProject : null;
     }
 
+    function updateProjectIndicator(activeProject) {
+      if (!projectIndicator) {
+        return;
+      }
+
+      projectIndicator.classList.toggle('is-visible', Boolean(activeProject));
+      projectIndicator.setAttribute('aria-hidden', activeProject ? 'false' : 'true');
+
+      projectIndicatorButtons.forEach(function (button) {
+        var isActive = activeProject && button.getAttribute('data-project-target') === activeProject.id;
+        button.setAttribute('aria-current', isActive ? 'true' : 'false');
+        button.setAttribute('tabindex', activeProject ? '0' : '-1');
+      });
+    }
+
     function isPanelVisible(panel, strip) {
       var panelLeft = panel.offsetLeft;
       var panelRight = panelLeft + panel.offsetWidth;
@@ -786,6 +861,8 @@
     function updatePlayback() {
       var activeProject = getActiveProject();
       var nextVideos = [];
+
+      updateProjectIndicator(activeProject);
 
       if (activeProject) {
         var strip = activeProject.querySelector('.project-strip');
@@ -830,6 +907,16 @@
       });
       video.addEventListener('keydown', handleFullscreenKey);
       resetVideo(video);
+    });
+
+    projectIndicatorButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        var project = document.getElementById(button.getAttribute('data-project-target'));
+
+        if (project) {
+          project.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
     });
 
     window.addEventListener('scroll', schedulePlaybackUpdate, { passive: true });
