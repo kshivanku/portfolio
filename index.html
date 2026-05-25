@@ -64,13 +64,15 @@
 
   .frame--hero {
     display: grid;
-    grid-template-rows: 1fr auto;
-    gap: clamp(2rem, 6vw, 5rem);
+    grid-template-rows: auto auto;
+    align-content: center;
+    gap: clamp(2.25rem, 5vw, 4rem);
+    height: 80vh;
+    height: 80dvh;
     padding: clamp(1.5rem, 5vw, 5rem);
   }
 
   .hero-copy {
-    align-self: center;
     width: 100%;
   }
 
@@ -83,60 +85,58 @@
     letter-spacing: 0;
   }
 
+  .hero-letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(-0.55em);
+    animation: letter-drop 0.65s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
+    animation-delay: calc(var(--letter-index) * 45ms);
+  }
+
+  .hero-letter--space {
+    width: 0.28em;
+  }
+
+  @keyframes letter-drop {
+    0% {
+      opacity: 0;
+      transform: translateY(-0.55em);
+    }
+
+    70% {
+      opacity: 1;
+      transform: translateY(0.06em);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .hero-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: clamp(2rem, 6vw, 5rem);
     width: 100%;
   }
 
   .hero-intro {
-    max-width: 34rem;
+    max-width: 43rem;
   }
 
   .hero-description {
     margin: 0;
     color: var(--text);
     font-size: clamp(1.35rem, 2.4vw, 2rem);
-    font-weight: 650;
+    font-weight: 520;
     line-height: 1.22;
-  }
-
-  .hero-cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 2rem;
-    padding: 1rem 1.35rem;
-    border-radius: 999px;
-    background-color: #3f6268;
-    color: #ffffff;
-    font-size: 0.95rem;
-    font-weight: 750;
-    line-height: 1;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-  }
-
-  .hero-cta:hover,
-  .hero-cta:focus-visible {
-    background-color: #4b747b;
-    transform: translateY(-1px);
-  }
-
-  .hero-cta:focus-visible {
-    outline: 2px solid var(--toggle-hover);
-    outline-offset: 3px;
   }
 
   .hero-nav {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: clamp(1.25rem, 3vw, 2.25rem);
     flex-wrap: wrap;
+    margin-top: 2rem;
   }
 
   .hero-nav a {
@@ -541,6 +541,12 @@
     html {
       scroll-snap-type: y proximity;
     }
+
+    .hero-letter {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
   }
 
   @media (min-width: 960px) {
@@ -587,15 +593,6 @@
 
     .frame__heading {
       font-size: clamp(4rem, 22vw, 7rem);
-    }
-
-    .hero-footer {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .hero-nav {
-      justify-content: flex-start;
     }
 
     .resume-item {
@@ -645,18 +642,21 @@
   <main class="feed">
     <section class="frame frame--hero" id="hero">
       <div class="hero-copy">
-        <h1 class="frame__heading">Shivanku Kumar</h1>
+        <h1 class="frame__heading" aria-label="Shivanku Kumar">
+          <span aria-hidden="true">
+            <span class="hero-letter" style="--letter-index: 0;">S</span><span class="hero-letter" style="--letter-index: 1;">h</span><span class="hero-letter" style="--letter-index: 2;">i</span><span class="hero-letter" style="--letter-index: 3;">v</span><span class="hero-letter" style="--letter-index: 4;">a</span><span class="hero-letter" style="--letter-index: 5;">n</span><span class="hero-letter" style="--letter-index: 6;">k</span><span class="hero-letter" style="--letter-index: 7;">u</span><span class="hero-letter hero-letter--space" style="--letter-index: 8;"></span><span class="hero-letter" style="--letter-index: 9;">K</span><span class="hero-letter" style="--letter-index: 10;">u</span><span class="hero-letter" style="--letter-index: 11;">m</span><span class="hero-letter" style="--letter-index: 12;">a</span><span class="hero-letter" style="--letter-index: 13;">r</span>
+          </span>
+        </h1>
       </div>
       <div class="hero-footer">
         <div class="hero-intro">
           <p class="hero-description">I design and build products that feel simple, intuitive and are used by millions globally.</p>
-          <a class="hero-cta" href="#project-1">Explore work</a>
+          <nav class="hero-nav" aria-label="Primary navigation">
+            <a href="#project-1">Work</a>
+            <a href="#resume">Resume</a>
+            <a href="https://www.linkedin.com/in/kshivanku/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </nav>
         </div>
-        <nav class="hero-nav" aria-label="Primary navigation">
-          <a href="#project-1">Work</a>
-          <a href="#resume">Resume</a>
-          <a href="https://www.linkedin.com/in/kshivanku/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </nav>
       </div>
     </section>
 
@@ -1008,13 +1008,13 @@
         var rect = project.getBoundingClientRect();
         var visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
 
-        if (visibleHeight > largestVisibleHeight) {
+        if (rect.top <= 1 && rect.bottom > 1 && visibleHeight > largestVisibleHeight) {
           largestVisibleHeight = visibleHeight;
           activeProject = project;
         }
       });
 
-      return largestVisibleHeight > 0 ? activeProject : null;
+      return activeProject;
     }
 
     function getActiveVideoIndex(activeProject) {

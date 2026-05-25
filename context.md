@@ -53,13 +53,13 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 
 | # | Frame | Content |
 |---|--------|---------|
-| 1 | **Hero** | Editorial header with large name, description, Explore work CTA, and hero-only nav |
+| 1 | **Hero** | Editorial header with animated large name, description, and hero-only nav under the description |
 | 2 | **Project 1** | Vertical project section: intro panel + 3 captioned video panels |
 | 3 | **Project 2** | Vertical project section: intro panel + 3 captioned video panels |
 | 4 | **Project 3** | Vertical project section: intro panel + 2 captioned video panels |
 | 5 | **Resume** | Work experience and education from the attached CV, plus a Google Drive resume download link |
 
-**Five main sections total** (hero counts as the first). The hero is an editorial header: a large "Shivanku Kumar" heading, concise product design description, an "Explore work" CTA that scrolls to Project 1, and hero-only navigation links for Work, Resume, and LinkedIn. The site uses a single vertical scroll axis. On mobile, each project section stacks the intro panel followed by its captioned video panels. On desktop (`min-width: 960px`), each project section becomes a two-column layout: the intro panel stays sticky on the left at `34vw`, and the video panels scroll vertically on the right. Video panels keep centered caption text and subtle metadata pills below the caption. The intro panel displays the project title, description, and four work experience rows (Year, Company, Role, Platform) with labels on the left and values on the right. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; Project 2 video order is `vHubDemo.mov`, `VHubReviewDemo.mov`, then `AdditionalIncomeReview.mov`; Project 3 video order is `Pulsecheck.mov`, then `HLHub.mov`. Project videos are paused and reset while offscreen; video panels only play from the beginning when vertically visible in the active project section. Tapping/clicking a video, or focusing it and pressing Enter/Space, opens it in native fullscreen where supported. A subtle right-side project indicator appears only while one of the three project sections is active; it marks projects 1, 2, or 3 and can be clicked to jump between project sections. The active project number shows small dots for that project's videos, with the dot matching the most visible video panel. The resume section follows the projects with a minimal work experience and education layout using plain rows and separators instead of cards, with a subtle download link to the Google Drive resume.
+**Five main sections total** (hero counts as the first). The hero is an editorial header: a large "Shivanku Kumar" heading whose visible letters drop into place on load, concise product design description, and hero-only navigation links for Work, Resume, and LinkedIn directly below the description. The hero is `80vh` / `80dvh` tall so the first project peeks into the initial viewport. The animated heading keeps an accessible `aria-label` and disables the letter animation for `prefers-reduced-motion`. The site uses a single vertical scroll axis. On mobile, each project section stacks the intro panel followed by its captioned video panels. On desktop (`min-width: 960px`), each project section becomes a two-column layout: the intro panel stays sticky on the left at `34vw`, and the video panels scroll vertically on the right. Video panels keep centered caption text and subtle metadata pills below the caption. The intro panel displays the project title, description, and four work experience rows (Year, Company, Role, Platform) with labels on the left and values on the right. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; Project 2 video order is `vHubDemo.mov`, `VHubReviewDemo.mov`, then `AdditionalIncomeReview.mov`; Project 3 video order is `Pulsecheck.mov`, then `HLHub.mov`. Project videos are paused and reset while offscreen; video panels only play from the beginning when vertically visible in the active project section. Tapping/clicking a video, or focusing it and pressing Enter/Space, opens it in native fullscreen where supported. A subtle right-side project indicator appears only while one of the three project sections is active; it marks projects 1, 2, or 3 and can be clicked to jump between project sections. The active project number shows small dots for that project's videos, with the dot matching the most visible video panel. The resume section follows the projects with a minimal work experience and education layout using plain rows and separators instead of cards, with a subtle download link to the Google Drive resume.
 
 ### Planned (not built yet)
 
@@ -73,14 +73,14 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 ## Scroll model (current)
 
 - **CSS scroll snap** — `scroll-snap-type: y mandatory` on `html`
-- Hero and media panels are **`100vh` / `100dvh`** with `scroll-snap-align: start` and `scroll-snap-stop: always`
+- Hero is **`80vh` / `80dvh`** so the first project peeks into the initial viewport; media panels remain **`100vh` / `100dvh`**
 - Outer project sections are not snap targets; their intro and video panels provide the snap stops so videos land flush at the top
 - Project sections are vertically stacked; no horizontal scroll is used for project media
 - On desktop, project intro panels are sticky left columns while the video panels scroll vertically on the right
 - Resume section follows the projects and scrolls internally if the work and education rows exceed the viewport
 - **No JavaScript scroll snapping logic** — vertical snap is native CSS
 - **JavaScript media visibility control only** — the most vertically visible project section is active; video panels start from `0:00` only when vertically visible in that section; all other videos pause/reset
-- Project indicator uses the same active project detection as media playback, appears only from Project 1 through Project 3, hides on the hero and resume sections, and shows active-video dots under the active project number
+- Project indicator uses the same active project detection as media playback, appears only after a project section reaches the viewport top, hides on the hero and resume sections, and shows active-video dots under the active project number
 - Project videos are focusable and open in native fullscreen on click/tap, Enter, or Space; iOS Safari uses `webkitEnterFullscreen` fallback
 - **No text overlays** yet
 - **`prefers-reduced-motion`:** snap degrades to `proximity`
@@ -173,4 +173,4 @@ gh auth status
 
 ---
 
-*Last updated: Reworked the hero into an editorial header with CTA and hero-only navigation.*
+*Last updated: Removed the separate Explore work CTA and moved hero navigation under the description.*
