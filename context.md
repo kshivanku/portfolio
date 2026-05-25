@@ -173,4 +173,4 @@ gh auth status
 
 ---
 
-*Last updated: Refined the hero into a small animated greeting and larger bold statement, and made project video indicator dots vertical.*
+*Last updated: Toned down the hero headline scale while keeping the animated greeting and bold statement hierarchy.*
