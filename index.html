@@ -15,12 +15,7 @@
     --panel-edge: rgba(255, 255, 255, 0.08);
     --toggle: rgba(240, 240, 240, 0.4);
     --toggle-hover: rgba(240, 240, 240, 0.75);
-    --peek: 40px;
-    --panel-max: 520px;
-    --intro-panel-max: 680px;
-    --desktop-peek: 80px;
     --desktop-intro: 34vw;
-    --desktop-video: calc(66vw - var(--desktop-peek));
   }
 
   :root[data-theme="light"] {
@@ -84,52 +79,39 @@
   }
 
   .project-strip {
-    display: flex;
+    display: block;
     width: 100%;
-    height: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-snap-stop: always;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-  }
-
-  .project-strip::-webkit-scrollbar {
-    display: none;
+    min-height: 100%;
   }
 
   .project-panel {
     position: relative;
-    flex: 0 0 min(calc(100vw - var(--peek)), var(--panel-max));
-    width: min(calc(100vw - var(--peek)), var(--panel-max));
-    height: 100%;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     overflow: hidden;
     background-color: var(--bg);
   }
 
-  .project-panel:last-child {
-    flex-basis: min(100vw, var(--panel-max));
-    width: min(100vw, var(--panel-max));
-  }
-
-  .project-panel + .project-panel {
-    border-left: 1px solid var(--panel-edge);
+  .frame--project {
+    height: auto;
+    overflow: visible;
   }
 
   .project-panel--intro {
     display: flex;
-    align-items: flex-end;
-    flex-basis: min(calc(100vw - var(--peek)), var(--intro-panel-max));
-    width: min(calc(100vw - var(--peek)), var(--intro-panel-max));
+    align-items: center;
+    justify-content: center;
     background-color: var(--panel);
+    text-align: center;
   }
 
   .project-panel--media {
     display: flex;
     flex-direction: column;
+    border-top: 1px solid var(--panel-edge);
   }
 
   .project-copy {
@@ -146,7 +128,7 @@
 
   .project-copy p {
     max-width: 28rem;
-    margin: 0;
+    margin: 0 auto;
     color: var(--muted);
     font-size: clamp(1rem, 2.5vw, 1.35rem);
     line-height: 1.45;
@@ -163,6 +145,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1.25rem;
     padding: 1rem 0;
     border-bottom: 1px solid var(--panel-edge);
   }
@@ -421,30 +404,29 @@
     html {
       scroll-snap-type: y proximity;
     }
-
-    .project-strip {
-      scroll-snap-type: x proximity;
-    }
   }
 
   @media (min-width: 960px) {
     .project-strip {
-      width: 100%;
-    }
-
-    .project-panel {
-      flex-basis: var(--desktop-video);
-      width: var(--desktop-video);
-    }
-
-    .project-panel:last-child {
-      flex-basis: var(--desktop-video);
-      width: var(--desktop-video);
+      display: grid;
+      grid-template-columns: var(--desktop-intro) minmax(0, 1fr);
+      align-items: start;
     }
 
     .project-panel--intro {
-      flex-basis: var(--desktop-intro);
-      width: var(--desktop-intro);
+      position: sticky;
+      top: 0;
+      grid-column: 1;
+      grid-row: 1 / span 12;
+      align-items: flex-end;
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .project-panel--media {
+      grid-column: 2;
+      border-top: none;
+      border-left: 1px solid var(--panel-edge);
     }
 
     .project-copy {
@@ -453,6 +435,10 @@
 
     .project-copy h2 {
       font-size: clamp(2.5rem, 4vw, 4.5rem);
+    }
+
+    .project-copy p {
+      margin: 0;
     }
   }
 
@@ -788,7 +774,7 @@
 
   (function () {
     var videos = Array.prototype.slice.call(document.querySelectorAll('.frame--project video'));
-    var strips = Array.prototype.slice.call(document.querySelectorAll('.project-strip'));
+    var videoPanels = Array.prototype.slice.call(document.querySelectorAll('.project-panel--media'));
     var projectIndicator = document.querySelector('.project-indicator');
     var projectIndicatorButtons = Array.prototype.slice.call(document.querySelectorAll('.project-indicator__button'));
     var playingVideos = [];
@@ -857,14 +843,11 @@
       });
     }
 
-    function isPanelVisible(panel, strip) {
-      var panelLeft = panel.offsetLeft;
-      var panelRight = panelLeft + panel.offsetWidth;
-      var stripLeft = strip.scrollLeft;
-      var stripRight = stripLeft + strip.clientWidth;
-      var visibleWidth = Math.min(panelRight, stripRight) - Math.max(panelLeft, stripLeft);
+    function isPanelVisible(panel) {
+      var rect = panel.getBoundingClientRect();
+      var visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
 
-      return visibleWidth >= panel.offsetWidth;
+      return visibleHeight >= rect.height * 0.98;
     }
 
     function updatePlayback() {
@@ -874,17 +857,13 @@
       updateProjectIndicator(activeProject);
 
       if (activeProject) {
-        var strip = activeProject.querySelector('.project-strip');
+        videoPanels.forEach(function (panel) {
+          var video = panel.querySelector('video');
 
-        if (strip) {
-          Array.prototype.slice.call(strip.querySelectorAll('.project-panel--media')).forEach(function (panel) {
-            var video = panel.querySelector('video');
-
-            if (video && isPanelVisible(panel, strip)) {
-              nextVideos.push(video);
-            }
-          });
-        }
+          if (video && activeProject.contains(panel) && isPanelVisible(panel)) {
+            nextVideos.push(video);
+          }
+        });
       }
 
       videos.forEach(function (video) {
@@ -930,10 +909,6 @@
 
     window.addEventListener('scroll', schedulePlaybackUpdate, { passive: true });
     window.addEventListener('resize', schedulePlaybackUpdate);
-
-    strips.forEach(function (strip) {
-      strip.addEventListener('scroll', schedulePlaybackUpdate, { passive: true });
-    });
 
     if ('IntersectionObserver' in window) {
       var observer = new IntersectionObserver(function (entries) {

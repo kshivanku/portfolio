@@ -54,12 +54,12 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 | # | Frame | Content |
 |---|--------|---------|
 | 1 | **Hero** | Intro heading |
-| 2 | **Project 1** | Horizontal project strip: intro panel + 3 captioned video panels |
-| 3 | **Project 2** | Horizontal project strip: intro panel + 3 captioned video panels |
-| 4 | **Project 3** | Horizontal project strip: intro panel + 2 captioned video panels |
+| 2 | **Project 1** | Vertical project section: intro panel + 3 captioned video panels |
+| 3 | **Project 2** | Vertical project section: intro panel + 3 captioned video panels |
+| 4 | **Project 3** | Vertical project section: intro panel + 2 captioned video panels |
 | 5 | **Resume** | Work experience and education from the attached CV |
 
-**Five vertical frames total** (hero counts as the first). Each project frame contains a horizontal scroll-snap strip with a short intro panel followed by captioned video panels, each with centered caption text and two subtle metadata pills for status and impact below the caption. The intro panel now displays the project title, description, and four work experience rows (Year, Company, Role, Platform) with labels on the left and values on the right. On mobile, non-final media panels are `min(100vw - 40px, 520px)` so the next panel peeks by about 40px. On desktop (`min-width: 960px`), the strip uses the full viewport width: `34vw` intro panel + `calc(66vw - 80px)` primary video panel + `80px` next-video peek. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; Project 2 video order is `vHubDemo.mov`, `VHubReviewDemo.mov`, then `AdditionalIncomeReview.mov`; Project 3 video order is `Pulsecheck.mov`, then `HLHub.mov`. Project videos are paused and reset while offscreen; video panels only play from the beginning when fully visible in the active project frame. Tapping/clicking a video, or focusing it and pressing Enter/Space, opens it in native fullscreen where supported. A subtle right-side project indicator appears only while one of the three project frames is active; it marks projects 1, 2, or 3 and can be clicked to jump between project frames. The resume frame follows the projects with a minimal work experience and education layout using plain rows and separators instead of cards.
+**Five main sections total** (hero counts as the first). The site now uses a single vertical scroll axis. On mobile, each project section stacks the intro panel followed by its captioned video panels. On desktop (`min-width: 960px`), each project section becomes a two-column layout: the intro panel stays sticky on the left at `34vw`, and the video panels scroll vertically on the right. Video panels keep centered caption text and subtle metadata pills below the caption. The intro panel displays the project title, description, and four work experience rows (Year, Company, Role, Platform) with labels on the left and values on the right. Project 1 video order is `UplevelCTA.mov`, `FoAMediaEdited.mov`, then `Quicksends.mov`; Project 2 video order is `vHubDemo.mov`, `VHubReviewDemo.mov`, then `AdditionalIncomeReview.mov`; Project 3 video order is `Pulsecheck.mov`, then `HLHub.mov`. Project videos are paused and reset while offscreen; video panels only play from the beginning when vertically visible in the active project section. Tapping/clicking a video, or focusing it and pressing Enter/Space, opens it in native fullscreen where supported. A subtle right-side project indicator appears only while one of the three project sections is active; it marks projects 1, 2, or 3 and can be clicked to jump between project sections. The resume section follows the projects with a minimal work experience and education layout using plain rows and separators instead of cards.
 
 ### Planned (not built yet)
 
@@ -73,19 +73,18 @@ The site should feel like **short-form video apps** (TikTok, Reels, Shorts): **o
 ## Scroll model (current)
 
 - **CSS scroll snap** — `scroll-snap-type: y mandatory` on `html`
-- Each `.frame` is **`100vh` / `100dvh`** with `scroll-snap-align: start` and `scroll-snap-stop: always`
-- Project frames contain a native horizontal scroll area with `scroll-snap-type: x mandatory`
-- Resume frame follows the project frames and scrolls internally if the work and education rows exceed the viewport
-- Mobile horizontal media panels are full height and capped at 520px wide; smaller screens preserve a 40px right-side preview of the next panel
-- Desktop horizontal strips use the full viewport width so users see the intro panel, primary video panel, and an 80px peek of the next video panel instead of three videos competing at once
-- **No JavaScript scroll snapping logic** — vertical and horizontal snap are native CSS
-- **JavaScript media visibility control only** — the most vertically visible project frame is active; horizontal video panels start from `0:00` only when fully visible in that frame; all other videos pause/reset
-- Project indicator uses the same active project detection as media playback, appears only from Project 1 through Project 3, and hides on the hero and resume frames
+- Hero and media panels are **`100vh` / `100dvh`** with `scroll-snap-align: start` and `scroll-snap-stop: always`
+- Project sections are vertically stacked; no horizontal scroll is used for project media
+- On desktop, project intro panels are sticky left columns while the video panels scroll vertically on the right
+- Resume section follows the projects and scrolls internally if the work and education rows exceed the viewport
+- **No JavaScript scroll snapping logic** — vertical snap is native CSS
+- **JavaScript media visibility control only** — the most vertically visible project section is active; video panels start from `0:00` only when vertically visible in that section; all other videos pause/reset
+- Project indicator uses the same active project detection as media playback, appears only from Project 1 through Project 3, and hides on the hero and resume sections
 - Project videos are focusable and open in native fullscreen on click/tap, Enter, or Space; iOS Safari uses `webkitEnterFullscreen` fallback
 - **No text overlays** yet
 - **`prefers-reduced-motion`:** snap degrades to `proximity`
 
-Do not invert vertical direction. Scrolling down goes to the next project frame; scrolling up returns to the previous frame. Avoid long multi-viewport vertical sections unless the user asks.
+Do not invert vertical direction. Scrolling down advances through project intros, project videos, and the resume; scrolling up returns to the previous snap point.
 
 ---
 
@@ -130,7 +129,7 @@ portfolio/
 
 | Branch | Purpose |
 |--------|---------|
-| **`main`** | Current TikTok-style scroll snap with full-width desktop intro + primary video + 80px peek |
+| **`main`** | Current vertical-only scroll model with sticky desktop project intro columns |
 | **`codex/desktop-two-panel-peek`** | Merged experiment branch: full-width desktop shows intro + primary video + 80px next-video peek |
 | **`experiment/scroll-frame-portfolio`** | Prior attempt: peek hints, blur transitions, in-project text overlays — preserved, not deleted |
 
@@ -140,17 +139,17 @@ portfolio/
 
 ### Done
 
-- [x] Hero + 3 project frames with scroll snap
-- [x] Project frames use horizontal intro + captioned video panel strips
+- [x] Hero + 3 project sections with scroll snap
+- [x] Project sections use a single vertical scroll axis
 - [x] Video captions include two subtle metadata pills for status and impact
-- [x] Horizontal panels are max-width capped on desktop and show a 40px preview of the next panel when one exists
-- [x] Desktop composition: full-width intro + primary video + 80px next-video peek
+- [x] Desktop composition: sticky left project intro + vertically scrolling video panels on the right
+- [x] Mobile composition: centered intro panel followed by full-height video panels
 - [x] Unique video assets assigned for Project 1, Project 2, and both Project 3 video panels
-- [x] Project videos only play while fully visible in the active project frame and restart from the beginning on entry
+- [x] Project videos only play while vertically visible in the active project section and restart from the beginning on entry
 - [x] Project videos open in fullscreen on click/tap or keyboard activation
 - [x] Light / dark theme toggle, dark default
 - [x] Bidirectional snap (scroll up returns to previous frame)
-- [x] Right-side project indicator appears on project frames and highlights the active project
+- [x] Right-side project indicator appears on project sections and highlights the active project
 - [x] Work experience details (Year, Company, Role, Platform) displayed in intro panel with label-value layout
 - [x] Resume section after projects with work experience and education from the CV
 
@@ -173,4 +172,4 @@ gh auth status
 
 ---
 
-*Last updated: Added a subtle right-side project indicator for the three project frames.*
+*Last updated: Replaced horizontal project layouts with a vertical-only scroll model and sticky desktop project intro columns.*
