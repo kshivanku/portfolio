@@ -162,4 +162,4 @@ gh auth status
 
 ---
 
-*Last updated: Project 2's first video panel now uses `vHubDemo.mov`; captions and tags unchanged.*
+*Last updated: Refreshed `vHubDemo.mov`, used as Project 2's first video panel.*
