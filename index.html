@@ -1994,6 +1994,7 @@
       });
     });
 
+    /*
     if (heroHeading && gsapAvailable) {
       heroHeading.setAttribute('tabindex', '0');
       heroHeading.addEventListener('mouseenter', assembleHeroName);
@@ -2006,6 +2007,7 @@
         }
       });
     }
+    */
 
     if (menuToggle) {
       menuToggle.addEventListener('click', function () {
@@ -2073,7 +2075,12 @@
     }
 
     function runHeroReveal() {
+      revealGlyphs(heroGlyphs, 0.045);
+      /*
+      Drift is intentionally disabled for now. Keep the implementation above
+      intact so we can revisit a more purposeful hero interaction later.
       revealGlyphs(heroGlyphs, 0.045, startHeroDrift);
+      */
     }
 
     function startPortfolioExperience() {
