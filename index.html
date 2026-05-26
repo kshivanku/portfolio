@@ -53,8 +53,104 @@
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  body.menu-open {
+  body.menu-open,
+  body.auth-locked {
     overflow: hidden;
+  }
+
+  body.auth-locked .theme-toggle,
+  body.auth-locked .menu-toggle,
+  body.auth-locked .project-indicator,
+  body.auth-locked .feed {
+    visibility: hidden;
+  }
+
+  .password-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1.5rem, 5vw, 5rem);
+    background-color: var(--bg);
+    color: var(--text);
+  }
+
+  body.auth-locked .password-gate {
+    display: flex;
+  }
+
+  .password-gate__form {
+    width: min(100%, 30rem);
+  }
+
+  .password-gate__title {
+    margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
+    font-family: var(--title-font);
+    font-size: clamp(4rem, 14vw, 9rem);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: 0;
+  }
+
+  .password-gate__label {
+    display: block;
+    margin: 0 0 0.65rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .password-gate__row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .password-gate__input {
+    min-width: 0;
+    flex: 1;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--panel-edge);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    outline: none;
+  }
+
+  .password-gate__input:focus {
+    border-color: currentColor;
+  }
+
+  .password-gate__button {
+    flex: 0 0 auto;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid var(--panel-edge);
+    border-radius: 999px;
+    background: var(--text);
+    color: var(--bg);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .password-gate__button:hover,
+  .password-gate__button:focus-visible {
+    opacity: 0.82;
+  }
+
+  .password-gate__button:active {
+    transform: scale(0.98);
+  }
+
+  .password-gate__error {
+    min-height: 1.25rem;
+    margin: 0.75rem 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
   }
 
   .feed {
@@ -1042,7 +1138,19 @@
   }
   </style>
 </head>
-<body>
+<body class="auth-locked">
+  <section class="password-gate" aria-labelledby="password-gate-title">
+    <form class="password-gate__form">
+      <h1 class="password-gate__title" id="password-gate-title">Hello</h1>
+      <label class="password-gate__label" for="portfolio-password">Enter password</label>
+      <div class="password-gate__row">
+        <input class="password-gate__input" id="portfolio-password" type="password" autocomplete="current-password" required>
+        <button class="password-gate__button" type="submit">Enter</button>
+      </div>
+      <p class="password-gate__error" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
   <button class="theme-toggle" type="button" aria-label="Switch to light mode">
     <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
@@ -1418,6 +1526,54 @@
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script>
+  (function () {
+    var password = 'sk2026';
+    var storageKey = 'portfolioAccessGranted';
+    var gate = document.querySelector('.password-gate');
+    var form = document.querySelector('.password-gate__form');
+    var input = document.querySelector('.password-gate__input');
+    var error = document.querySelector('.password-gate__error');
+
+    function unlock() {
+      document.body.classList.remove('auth-locked');
+      if (gate) {
+        gate.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    if (sessionStorage.getItem(storageKey) === 'true') {
+      unlock();
+      return;
+    }
+
+    if (input) {
+      window.requestAnimationFrame(function () {
+        input.focus();
+      });
+    }
+
+    if (form) {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        if (input && input.value === password) {
+          sessionStorage.setItem(storageKey, 'true');
+          unlock();
+          return;
+        }
+
+        if (error) {
+          error.textContent = 'Try that password again.';
+        }
+
+        if (input) {
+          input.value = '';
+          input.focus();
+        }
+      });
+    }
+  })();
+
   (function () {
     var root = document.documentElement;
     var toggle = document.querySelector('.theme-toggle');
