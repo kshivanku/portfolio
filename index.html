@@ -182,6 +182,7 @@
   .hero-copy {
     position: relative;
     width: 100%;
+    perspective: 900px;
   }
 
   .frame__heading {
@@ -220,6 +221,7 @@
 
   .text-reveal__glyph {
     display: inline-block;
+    transform-style: preserve-3d;
     will-change: transform;
   }
 
@@ -1720,6 +1722,15 @@
           rotation: function () {
             return window.gsap.utils.random(-18, 18);
           },
+          z: function () {
+            return window.gsap.utils.random(-80, 120);
+          },
+          rotationX: function () {
+            return window.gsap.utils.random(-18, 18);
+          },
+          rotationY: function () {
+            return window.gsap.utils.random(-22, 22);
+          },
           duration: function () {
             return window.gsap.utils.random(5.5, 9);
           },
@@ -1746,7 +1757,10 @@
       window.gsap.to(heroGlyphs, {
         x: 0,
         y: 0,
+        z: 0,
         rotation: 0,
+        rotationX: 0,
+        rotationY: 0,
         duration: 0.34,
         ease: 'power4.out',
         stagger: 0.006
