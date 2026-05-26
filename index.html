@@ -1539,6 +1539,7 @@
       if (gate) {
         gate.setAttribute('aria-hidden', 'true');
       }
+      window.dispatchEvent(new CustomEvent('portfolio:unlocked'));
     }
 
     if (sessionStorage.getItem(storageKey) === 'true') {
@@ -2061,15 +2062,29 @@
       revealGlyphs(heroGlyphs, 0.045, startHeroDrift);
     }
 
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(runHeroReveal);
-    } else {
-      runHeroReveal();
+    function startPortfolioExperience() {
+      if (startPortfolioExperience.hasRun) {
+        return;
+      }
+
+      startPortfolioExperience.hasRun = true;
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(runHeroReveal);
+      } else {
+        runHeroReveal();
+      }
+
+      updatePlayback();
+      updateMenuVisibility();
+      window.setInterval(updatePlayback, 250);
     }
 
-    updatePlayback();
-    updateMenuVisibility();
-    window.setInterval(updatePlayback, 250);
+    if (document.body.classList.contains('auth-locked')) {
+      window.addEventListener('portfolio:unlocked', startPortfolioExperience, { once: true });
+    } else {
+      startPortfolioExperience();
+    }
   })();
   </script>
 </body>
