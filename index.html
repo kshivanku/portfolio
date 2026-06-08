@@ -208,6 +208,10 @@
     mix-blend-mode: difference;
   }
 
+  .frame__heading.is-reveal-complete .hero-letter:not(.hero-letter--space) {
+    cursor: pointer;
+  }
+
   .hero-letter {
     display: inline-block;
     overflow: hidden;
@@ -1618,6 +1622,7 @@
     var gsapAvailable = Boolean(window.gsap) && !reduceMotion;
     var heroDriftTweens = [];
     var heroReleaseTimer = null;
+    var heroRevealComplete = false;
 
     function wrapRevealText(element) {
       if (!element || element.querySelector('.text-reveal__glyph') || !element.textContent.trim()) {
@@ -1662,6 +1667,59 @@
           onComplete: onComplete
         }
       );
+    }
+
+    function getPointerDuckPercent(letter, event) {
+      var rect = letter.getBoundingClientRect();
+      var pointerY = event.clientY - rect.top;
+      var cursorGap = Math.min(14, Math.max(6, rect.height * 0.1));
+      var duckPercent = ((pointerY + cursorGap) / rect.height) * 100;
+
+      return Math.min(92, Math.max(8, duckPercent));
+    }
+
+    function duckGlyphFromPointer(glyph, letter, event, shouldReplay) {
+      if (!gsapAvailable || !heroRevealComplete || !glyph) {
+        return;
+      }
+
+      var duckPercent = getPointerDuckPercent(letter, event);
+
+      window.gsap.killTweensOf(glyph);
+      if (shouldReplay) {
+        window.gsap.fromTo(
+          glyph,
+          { yPercent: 100 },
+          {
+            yPercent: duckPercent,
+            duration: 0.52,
+            ease: 'power3.out',
+            overwrite: true
+          }
+        );
+        return;
+      }
+
+      window.gsap.to(glyph, {
+        yPercent: duckPercent,
+        duration: 0.16,
+        ease: 'power2.out',
+        overwrite: true
+      });
+    }
+
+    function releaseDuckedGlyph(glyph) {
+      if (!gsapAvailable || !heroRevealComplete || !glyph) {
+        return;
+      }
+
+      window.gsap.killTweensOf(glyph);
+      window.gsap.to(glyph, {
+        yPercent: 0,
+        duration: 0.42,
+        ease: 'power3.out',
+        overwrite: true
+      });
     }
 
     function stopHeroDrift() {
@@ -2075,12 +2133,31 @@
     }
 
     function runHeroReveal() {
-      revealGlyphs(heroGlyphs, 0.045);
+      revealGlyphs(heroGlyphs, 0.045, function () {
+        heroRevealComplete = true;
+        if (heroHeading) {
+          heroHeading.classList.add('is-reveal-complete');
+        }
+      });
       /*
       Drift is intentionally disabled for now. Keep the implementation above
       intact so we can revisit a more purposeful hero interaction later.
       revealGlyphs(heroGlyphs, 0.045, startHeroDrift);
       */
+    }
+
+    if (heroHeading && gsapAvailable) {
+      Array.prototype.slice.call(heroHeading.querySelectorAll('.hero-letter:not(.hero-letter--space)')).forEach(function (letter) {
+        letter.addEventListener('pointerenter', function (event) {
+          duckGlyphFromPointer(letter.querySelector('.text-reveal__glyph'), letter, event, true);
+        });
+        letter.addEventListener('pointermove', function (event) {
+          duckGlyphFromPointer(letter.querySelector('.text-reveal__glyph'), letter, event, false);
+        });
+        letter.addEventListener('pointerleave', function () {
+          releaseDuckedGlyph(letter.querySelector('.text-reveal__glyph'));
+        });
+      });
     }
 
     function startPortfolioExperience() {
